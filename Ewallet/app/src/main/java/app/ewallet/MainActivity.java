@@ -168,12 +168,12 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case R.id.action_showBalance: //put toast for Terminal's current balance here
                 break;
+            case R.id.action_addStock:  //Will go to Item Inventory Screen
+                break;
         }
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_sync) {
 
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

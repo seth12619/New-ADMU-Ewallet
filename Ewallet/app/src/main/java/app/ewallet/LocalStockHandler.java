@@ -166,6 +166,7 @@ public class LocalStockHandler extends SQLiteOpenHelper {
     public void drop() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
+        PRIMARY_KEY = 10;
         onCreate(db);
         db.close();
     }

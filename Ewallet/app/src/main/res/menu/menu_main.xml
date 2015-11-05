@@ -13,7 +13,12 @@
         app:showAsAction="never" />
 
     <item android:id="@+id/action_addItem"
-        android:title="Add Item"
-        android:orderInCategory="102"
+        android:title="Add Inventory Item"
+        android:orderInCategory="103"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_addStock"
+        android:title="Edit Inventory"
+        android:orderInCategory="104"
         app:showAsAction="never" />
 </menu>
