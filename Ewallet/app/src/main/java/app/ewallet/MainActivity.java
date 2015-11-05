@@ -105,9 +105,12 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences.Editor editor = sp.edit();
         String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
         if(dbPrimaryKey.equals("initial")) {
+            btdb.drop();
             stdb.drop();
             int currPrimaryKey = stdb.generatePrimaryKey();
             int itemNo = 101;
+            Log.i("initial", dbPrimaryKey);
+            Log.i("initialkey", String.valueOf(currPrimaryKey));
 
             while (dbShop.checkExist(itemNo)) {
                 String primaryKey = String.valueOf(currPrimaryKey);
@@ -120,9 +123,11 @@ public class MainActivity extends ActionBarActivity {
             }
 
         } else {
+            Log.i("HAS LOCAL DB", dbPrimaryKey);
+            /*
             stdb.drop();
             int currPrimaryKey = Integer.parseInt(dbPrimaryKey) + 1;
-            int itemNo = 101;
+            int itemNo = 10001;
 
 
             while (dbShop.checkExist(itemNo)) {
@@ -134,7 +139,7 @@ public class MainActivity extends ActionBarActivity {
                 currPrimaryKey += 1;
                 itemNo++;
             }
-
+            */
         }
 
 /**
@@ -379,7 +384,7 @@ public class MainActivity extends ActionBarActivity {
              */
                 final JSONArray ja = new JSONArray();
                 JSONObject jo;
-                int i = 10010;
+                int i = 10001;
             try {
                 while (btdb.checkExist(i)) {
 
@@ -409,9 +414,9 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void run() {
                                 EditText et = (EditText) findViewById(R.id.qty_editText3);
-                                et.setText((new String(responseBody)));
+                                //et.setText((new String(responseBody)));
                                 EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                                itemEt4.setText(ja.toString());
+                                //itemEt4.setText(ja.toString());
 
                             }
                         });
@@ -438,7 +443,7 @@ public class MainActivity extends ActionBarActivity {
 
             final JSONArray ja1 = new JSONArray();
             jo = new JSONObject();
-            int j = 10;
+            int j = 10001;
             try {
                 while (stdb.checkExist(j)) {
                     Stock stock = stdb.getStock(j);
@@ -469,9 +474,9 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            et.setText((new String(responseBody)));
+                            //et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            itemEt4.setText(tomato);
+                            itemEt4.setText(ja1.toString());
 
                         }
                     });

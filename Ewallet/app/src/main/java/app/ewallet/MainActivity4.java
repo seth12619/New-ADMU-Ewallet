@@ -165,6 +165,7 @@ public class MainActivity4 extends ActionBarActivity {
             BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
             btdb.addBuyTrans(bt);
             bt = btdb.getBuyTransaction(currPrimaryKey);
+            Log.i("FIRST TIME", dbPrimaryKey);
             Log.i("PrimaryKey", String.valueOf(bt.getTransID()));
             Log.i("Timestamp", bt.getTimeStamp());
             Log.i("idnumber", String.valueOf(bt.getIDNum()));
@@ -174,8 +175,25 @@ public class MainActivity4 extends ActionBarActivity {
                 //This is the new way we update the stocks
                 int itemID = Integer.parseInt(item1);
                 Item item = shdb.getItem(itemID);
-                shdb.updateItem(item.getID(), item.getQty()-Integer.parseInt(qty1));
+                //item.setQty(item.getQty()-Integer.parseInt(qty1));
+                int itemqty = item.getQty()-Integer.parseInt(qty1);
+                shdb.updateItem(itemID, itemqty);
+
+                stdb.update(itemID, stdb.getStock(currPrimaryKey).getQty()-1);
                 //
+                Log.i("ITEMQTY1", String.valueOf(shdb.getItem(itemID).getQty()));
+                Log.i("STOCKQTY1", String.valueOf(stdb.getStock(currPrimaryKey).getQty()));
+                //Stock stock1 = new Stock(currPrimaryKey, "001", itemID, timeStamp, Integer.parseInt(qty1));
+                //stdb.addStock(stock1);
+                Stock stock1 = stdb.getStock(currPrimaryKey);
+                //Stock stock1 = stdb.getStock(currPrimaryKey);
+
+                Log.i("StockPrimaryKey", String.valueOf(stock1.getPrim()));
+                Log.i("shopid", stock1.getShopID());
+                Log.i("stockitemid", String.valueOf(stock1.getItemID()));
+                Log.i("stocktimestamp", stock1.getTimeStamp());
+                Log.i("stockqty", String.valueOf(stock1.getQty()));
+
 
                 ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
                 iodb.addItemOrder(itemOrder1);
@@ -187,13 +205,15 @@ public class MainActivity4 extends ActionBarActivity {
 
 
         }
+        //db already has existing data
         else
         {
-            int currPrimaryKey = Integer.parseInt(dbPrimaryKey) + 1;
+            int currPrimaryKey = Integer.parseInt(dbPrimaryKey);
             btdb.setPrimaryKey(currPrimaryKey);
             BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
             btdb.addBuyTrans(bt);
             bt = btdb.getBuyTransaction(currPrimaryKey);
+            Log.i("NOT FIRST TIME", dbPrimaryKey);
             Log.i("PrimaryKey", String.valueOf(bt.getTransID()));
             Log.i("Timestamp", bt.getTimeStamp());
             Log.i("idnumber", String.valueOf(bt.getIDNum()));
@@ -207,8 +227,24 @@ public class MainActivity4 extends ActionBarActivity {
                 //This is the new way we update the stocks
                 int itemID = Integer.parseInt(item1);
                 Item item = shdb.getItem(itemID);
-                shdb.updateItem(item.getID(), item.getQty()-Integer.parseInt(qty1));
+                int itemqty = item.getQty()-Integer.parseInt(qty1);
+                shdb.updateItem(item.getID(), itemqty);
+                stdb.update(item.getID(), stdb.getStock(currPrimaryKey).getQty()-1);
+                //item.setQty(item.getQty()-Integer.parseInt(qty1));
+                Log.i("ITEMQTY2", String.valueOf(shdb.getItem(itemID).getQty()));
+
+                Log.i("STOCKQTY2", String.valueOf(stdb.getStock(currPrimaryKey).getQty()));
                 //
+                //Stock stock1 = new Stock(currPrimaryKey, "001", itemID, timeStamp, Integer.parseInt(qty1));
+                //stdb.addStock(stock1);
+                Stock stock1 = stdb.getStock(currPrimaryKey);
+                //Stock stock2 = stdb.getStock(currPrimaryKey);
+
+                Log.i("StockPrimaryKey", String.valueOf(stock1.getPrim()));
+                Log.i("shopid", stock1.getShopID());
+                Log.i("stockitemid", String.valueOf(stock1.getItemID()));
+                Log.i("stocktimestamp", stock1.getTimeStamp());
+                Log.i("stockqty", String.valueOf(stock1.getQty()));
 
                 ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
                 iodb.addItemOrder(itemOrder1);
@@ -217,6 +253,7 @@ public class MainActivity4 extends ActionBarActivity {
                 Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
                 Log.i("ioqty", String.valueOf(qty1));
             }
+
 
         }
 
@@ -318,7 +355,7 @@ public class MainActivity4 extends ActionBarActivity {
 
 
             if (getBalance == false) {
-                    //String link = "https://posttestserver.com/post.php";
+                //String link = "https://posttestserver.com/post.php";
                 try {
                     String link = url;
 
@@ -328,7 +365,7 @@ public class MainActivity4 extends ActionBarActivity {
                     RequestHandle requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                           //is not called
+                            //is not called
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

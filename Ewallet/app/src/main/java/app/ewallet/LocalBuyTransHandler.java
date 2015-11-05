@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Seth Legaspi on 10/29/2015.
  */
 public class LocalBuyTransHandler extends SQLiteOpenHelper {
-    private int PRIMARY_KEY = 10010; //Most significant digit is the store number
+    private int PRIMARY_KEY = 10001; //Most significant digit is the store number
     private static final int DATABASE_VERSION = 1;
 
     //Database Name

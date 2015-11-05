@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class LocalitemOrder extends SQLiteOpenHelper {
 
-    private int PRIMARY_KEY = 10;
+    private int PRIMARY_KEY = 10001;
     private static final int DATABASE_VERSION = 1;
 
     //Database Name

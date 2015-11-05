@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class LocalStockHandler extends SQLiteOpenHelper {
 
-    private int PRIMARY_KEY = 10;
+    private int PRIMARY_KEY = 10001;
     private static final int DATABASE_VERSION = 1;
 
     //Database Name
@@ -157,16 +157,14 @@ public class LocalStockHandler extends SQLiteOpenHelper {
     public void update(int itemId, int newQty) {
         SQLiteDatabase db = getWritableDatabase();
         onCreate(db);
-
-        String query = "UPDATE " + TABLE_STOCK + " SET " + KEY_QUANTIY + "=" + newQty + " WHERE " + KEY_ID_SHOPTERMINAL + "=" + itemId;
-        db.rawQuery(query, null);
+        String query = "UPDATE " + TABLE_STOCK + " SET " + KEY_QUANTIY + " = " + newQty + " WHERE " + KEY_ID_ITEM + " = " + itemId;
+        db.execSQL(query);
         db.close();
     }
 
     public void drop() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
-        PRIMARY_KEY = 10;
         onCreate(db);
         db.close();
     }
