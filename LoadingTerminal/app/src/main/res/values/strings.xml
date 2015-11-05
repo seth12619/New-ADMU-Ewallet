@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="NewApi">
+    <string name="app_name">LoadingTerminal</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_sync">Sync</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_main3">MainActivity3</string>
+</resources>
