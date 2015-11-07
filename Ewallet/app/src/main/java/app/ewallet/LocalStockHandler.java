@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class LocalStockHandler extends SQLiteOpenHelper {
 
-    private int PRIMARY_KEY = 10001;
+    private int PRIMARY_KEY = 101;
     private static final int DATABASE_VERSION = 1;
 
     //Database Name

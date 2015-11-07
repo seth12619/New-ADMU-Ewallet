@@ -14,6 +14,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LocalShopHandler extends SQLiteOpenHelper {
 
 
@@ -102,6 +107,33 @@ public class LocalShopHandler extends SQLiteOpenHelper {
 
         db.close();
         return item;
+    }
+
+    public String getJson() {
+        SQLiteDatabase db = getReadableDatabase();
+        JSONArray array = new JSONArray();
+        Cursor cursor;
+        String query = "SELECT * FROM " + TABLE_SHOP;
+        cursor = db.rawQuery(query,null);
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+            int itemId = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_ID));
+            Double cost = cursor.getDouble(cursor.getColumnIndex(KEY_COST));
+            int qty = cursor.getInt(cursor.getColumnIndex(KEY_QTY));
+
+            JSONObject jo = new JSONObject();
+            try {
+                jo.put("itemID",itemId);
+                jo.put("name",name);
+                jo.put("cost",cost);
+                jo.put("qty",qty);
+                array.put(jo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return array.toString();
     }
 
     /**

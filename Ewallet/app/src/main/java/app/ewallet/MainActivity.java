@@ -108,18 +108,23 @@ public class MainActivity extends ActionBarActivity {
             btdb.drop();
             stdb.drop();
             int currPrimaryKey = stdb.generatePrimaryKey();
-            int itemNo = 101;
+
             Log.i("initial", dbPrimaryKey);
             Log.i("initialkey", String.valueOf(currPrimaryKey));
 
-            while (dbShop.checkExist(itemNo)) {
-                String primaryKey = String.valueOf(currPrimaryKey);
-                Item item = dbShop.getItem(itemNo);
-                sp = this.getPreferences(Context.MODE_PRIVATE);
-                Stock stock1 = new Stock(currPrimaryKey, "001", item.getID(), timeStamp, item.getQty());
-                stdb.addStock(stock1);
-                currPrimaryKey += 1;
-                itemNo++;
+            try {
+                JSONArray jaItem = new JSONArray(dbShop.getJson());
+                int i = 0;
+                while (i < jaItem.length()) {
+                    JSONObject joItem = jaItem.getJSONObject(i);
+                    sp = this.getPreferences(Context.MODE_PRIVATE);
+                    Stock stock1 = new Stock(currPrimaryKey, "001", joItem.getInt("itemID"), timeStamp, joItem.getInt("qty"));
+                    stdb.addStock(stock1);
+                    currPrimaryKey += 1;
+                    i++;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
         } else {
@@ -173,7 +178,8 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case R.id.action_showBalance: //put toast for Terminal's current balance here
                 break;
-            case R.id.action_addStock:  //Will go to Item Inventory Screen
+            case R.id.action_editStock: Intent intent0 = new Intent(this, SubActivity.class);
+                startActivity(intent0);
                 break;
         }
         //noinspection SimplifiableIfStatement
@@ -443,14 +449,13 @@ public class MainActivity extends ActionBarActivity {
 
             final JSONArray ja1 = new JSONArray();
             jo = new JSONObject();
-            int j = 10001;
+            int j = 101;
             try {
                 while (stdb.checkExist(j)) {
                     Stock stock = stdb.getStock(j);
                     jo = new JSONObject();
                     jo.put("shop_terminal_id", "00" + stock.getShopID());
                     jo.put("item_id",  stock.getItemID());
-                    jo.put("stock_ts", stock.getTimeStamp());
                     jo.put("quantity", stock.getQty());
                     j++;
                     ja1.put(jo);

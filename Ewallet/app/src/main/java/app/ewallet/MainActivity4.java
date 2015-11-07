@@ -179,13 +179,13 @@ public class MainActivity4 extends ActionBarActivity {
                 int itemqty = item.getQty()-Integer.parseInt(qty1);
                 shdb.updateItem(itemID, itemqty);
 
-                stdb.update(itemID, stdb.getStock(currPrimaryKey).getQty()-1);
+                stdb.update(itemID, itemqty);
                 //
                 Log.i("ITEMQTY1", String.valueOf(shdb.getItem(itemID).getQty()));
-                Log.i("STOCKQTY1", String.valueOf(stdb.getStock(currPrimaryKey).getQty()));
+                Log.i("STOCKQTY1", String.valueOf(stdb.getStock(itemID).getQty()));
                 //Stock stock1 = new Stock(currPrimaryKey, "001", itemID, timeStamp, Integer.parseInt(qty1));
                 //stdb.addStock(stock1);
-                Stock stock1 = stdb.getStock(currPrimaryKey);
+                Stock stock1 = stdb.getStock(itemID);
                 //Stock stock1 = stdb.getStock(currPrimaryKey);
 
                 Log.i("StockPrimaryKey", String.valueOf(stock1.getPrim()));
@@ -194,13 +194,13 @@ public class MainActivity4 extends ActionBarActivity {
                 Log.i("stocktimestamp", stock1.getTimeStamp());
                 Log.i("stockqty", String.valueOf(stock1.getQty()));
 
-
+                /*
                 ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
                 iodb.addItemOrder(itemOrder1);
                 itemOrder1 = iodb.getItemOrder(currPrimaryKey);
                 Log.i("IoPrimKey", String.valueOf(itemOrder1.getBuyTransID()));
                 Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
-                Log.i("ioqty", String.valueOf(itemOrder1.getQty()));
+                Log.i("ioqty", String.valueOf(itemOrder1.getQty()));*/
             }
 
 
@@ -229,15 +229,15 @@ public class MainActivity4 extends ActionBarActivity {
                 Item item = shdb.getItem(itemID);
                 int itemqty = item.getQty()-Integer.parseInt(qty1);
                 shdb.updateItem(item.getID(), itemqty);
-                stdb.update(item.getID(), stdb.getStock(currPrimaryKey).getQty()-1);
+                stdb.update(item.getID(), itemqty);
                 //item.setQty(item.getQty()-Integer.parseInt(qty1));
                 Log.i("ITEMQTY2", String.valueOf(shdb.getItem(itemID).getQty()));
 
-                Log.i("STOCKQTY2", String.valueOf(stdb.getStock(currPrimaryKey).getQty()));
+                Log.i("STOCKQTY2", String.valueOf(stdb.getStock(itemID).getQty()));
                 //
                 //Stock stock1 = new Stock(currPrimaryKey, "001", itemID, timeStamp, Integer.parseInt(qty1));
                 //stdb.addStock(stock1);
-                Stock stock1 = stdb.getStock(currPrimaryKey);
+                Stock stock1 = stdb.getStock(itemID);
                 //Stock stock2 = stdb.getStock(currPrimaryKey);
 
                 Log.i("StockPrimaryKey", String.valueOf(stock1.getPrim()));
@@ -246,12 +246,12 @@ public class MainActivity4 extends ActionBarActivity {
                 Log.i("stocktimestamp", stock1.getTimeStamp());
                 Log.i("stockqty", String.valueOf(stock1.getQty()));
 
-                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
-                iodb.addItemOrder(itemOrder1);
-                itemOrder1 = iodb.getItemOrder(currPrimaryKey);
-                Log.i("IoPrimKey", String.valueOf(itemOrder1.getBuyTransID()));
-                Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
-                Log.i("ioqty", String.valueOf(qty1));
+                //ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
+                //iodb.addItemOrder(itemOrder1);
+                //itemOrder1 = iodb.getItemOrder(currPrimaryKey);
+                //Log.i("IoPrimKey", String.valueOf(itemOrder1.getBuyTransID()));
+                //Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
+                //Log.i("ioqty", String.valueOf(qty1));
             }
 
 
