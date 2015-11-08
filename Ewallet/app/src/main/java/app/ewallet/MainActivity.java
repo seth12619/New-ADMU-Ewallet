@@ -1,10 +1,12 @@
 package app.ewallet;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,23 +19,31 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -408,10 +418,9 @@ public class MainActivity extends ActionBarActivity {
 
                 link = urlSync;
 
-                params = new RequestParams();
-                params.put("params", ja.toString());
-                final String paramString = params.toString();
-            requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
+                ByteArrayEntity be = new ByteArrayEntity(("params=" + ja.toString()).getBytes());
+                final String paramString = be.toString();
+            requestHandle = client.post(null, link, be, "application/json",new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, final byte[] responseBody) {
                         //never called
@@ -422,9 +431,9 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void run() {
                                 EditText et = (EditText) findViewById(R.id.qty_editText3);
-                               // et.setText((new String(responseBody)));
+                              //  et.setText((new String(responseBody)));
                                 EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                              //  itemEt4.setText(paramString);
+                               // itemEt4.setText(paramString);
 
                             }
                         });
@@ -454,14 +463,23 @@ public class MainActivity extends ActionBarActivity {
 
             }
 
-            params = new RequestParams();
-            params.put("params", ja1.toString());
-            final String tomato = params.toString();
+            be = new ByteArrayEntity(("params=" + ja1.toString()).getBytes());
+            final String tomato = be.toString();
 
-            requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
+            requestHandle = client.post(null,link, be, "application/json",new AsyncHttpResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(int statusCode, Header[] headers, final byte[] responseBody) {
                     //never called
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            EditText et = (EditText) findViewById(R.id.qty_editText3);
+                            et.setText((new String(responseBody)));
+                            EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
+                            itemEt4.setText(ja1.toString());
+
+                        }
+                    });
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, final byte[] responseBody, Throwable error) {
@@ -502,11 +520,10 @@ public class MainActivity extends ActionBarActivity {
 
             }
 
-            params = new RequestParams();
-            params.put("params", ja2.toString());
-            final String paramString0 = params.toString();
+            be = new ByteArrayEntity(("params=" + ja2.toString()).getBytes());
+            final String paramString0 = be.toString();
 
-            requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
+            requestHandle = client.post(null,link, be, "application/json", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     //never called
