@@ -162,6 +162,11 @@ public class MainActivity4 extends ActionBarActivity {
 
             editor.putString("PRIMARYKEY", primaryKey);
             editor.commit();
+            //iterates until btdb gets highest primary Key
+            while(btdb.checkExist(currPrimaryKey))
+            {
+                currPrimaryKey++;
+            }
             BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
             btdb.addBuyTrans(bt);
             bt = btdb.getBuyTransaction(currPrimaryKey);
@@ -208,6 +213,12 @@ public class MainActivity4 extends ActionBarActivity {
         else
         {
             int currPrimaryKey = Integer.parseInt(dbPrimaryKey);
+            //iterates until btdb gets highest primary Key
+            while(btdb.checkExist(currPrimaryKey))
+            {
+                currPrimaryKey++;
+            }
+
             btdb.setPrimaryKey(currPrimaryKey);
             BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
             btdb.addBuyTrans(bt);

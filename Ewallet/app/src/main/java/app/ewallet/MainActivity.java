@@ -99,12 +99,12 @@ public class MainActivity extends ActionBarActivity {
         DateFormat df6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timeStamp = df6.format(date);
 
-        btdb.drop();
+        /*
         BuyTransaction bt0 = new BuyTransaction(10010, timeStamp, 131356, "001");
         btdb.addBuyTrans(bt0);
         bt0 = new BuyTransaction(10011, timeStamp, 133821, "001");
         btdb.addBuyTrans(bt0);
-
+        */
 
         //Setting up of the Stock syncing (We basically send a stock report to the database)
 
@@ -115,11 +115,12 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences.Editor editor = sp.edit();
         String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
         if(dbPrimaryKey.equals("initial")) {
+            btdb.drop();
             stdb.drop();
             int currPrimaryKey = stdb.generatePrimaryKey();
-
+            int localCurrPrimaryKey = btdb.generatePrimaryKey();
             Log.i("initial", dbPrimaryKey);
-            Log.i("initialkey", String.valueOf(currPrimaryKey));
+            Log.i("initialkey", String.valueOf(localCurrPrimaryKey));
 
             try {
                 JSONArray jaItem = new JSONArray(dbShop.getJson());
@@ -433,7 +434,7 @@ public class MainActivity extends ActionBarActivity {
                                 EditText et = (EditText) findViewById(R.id.qty_editText3);
                               //  et.setText((new String(responseBody)));
                                 EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                               // itemEt4.setText(paramString);
+                                itemEt4.setText(ja.toString());
 
                             }
                         });
@@ -474,9 +475,9 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            et.setText((new String(responseBody)));
+                            //et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            itemEt4.setText(ja1.toString());
+                            //itemEt4.setText(ja1.toString());
 
                         }
                     });
@@ -487,9 +488,9 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            et.setText((new String(responseBody)));
+                            //et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            itemEt4.setText(tomato);
+                            //itemEt4.setText(tomato);
 
                         }
                     });
