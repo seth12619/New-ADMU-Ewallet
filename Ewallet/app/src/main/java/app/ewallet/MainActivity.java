@@ -469,9 +469,9 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            //et.setText((new String(responseBody)));
+                            et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                         //   itemEt4.setText(params.toString());
+                            itemEt4.setText(tomato);
 
                         }
                     });
@@ -517,9 +517,9 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            et.setText((new String(responseBody)));
+                          //  et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            itemEt4.setText(paramString0);
+                          //  itemEt4.setText(paramString0);
 
                         }
                     });
