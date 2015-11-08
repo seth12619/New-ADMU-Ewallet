@@ -48,6 +48,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.ewallet.MainActivity" />
         </activity>
+        <activity
+            android:name=".SubActivity2"
+            android:label="@string/app_name"
+            android:parentActivityName=".SubActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.ewallet.SubActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -433,9 +433,9 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void run() {
                                 EditText et = (EditText) findViewById(R.id.qty_editText3);
-                             //   et.setText((new String(responseBody)));
+                                et.setText((new String(responseBody)));
                                 EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                              //  itemEt4.setText(ja.toString());
+                                itemEt4.setText(ja.toString());
 
                             }
                         });
@@ -449,14 +449,15 @@ public class MainActivity extends ActionBarActivity {
 
             final JSONArray ja1 = new JSONArray();
             jo = new JSONObject();
-            int j = 101;
             try {
-                while (stdb.checkExist(j)) {
-                    Stock stock = stdb.getStock(j);
+                JSONArray stockJA = new JSONArray(stdb.getJson());
+                int j = 0;
+                while (j < stockJA.length()) {
+                    JSONObject stockJO = stockJA.getJSONObject(j);
                     jo = new JSONObject();
-                    jo.put("shop_terminal_id", "00" + stock.getShopID());
-                    jo.put("item_id",  stock.getItemID());
-                    jo.put("quantity", stock.getQty());
+                    jo.put("shop_terminal_id", "00" + stockJO.getInt("shopID"));
+                    jo.put("item_id",  stockJO.getInt("itemID"));
+                    jo.put("quantity", stockJO.getInt("qty"));
                     j++;
                     ja1.put(jo);
                 }
@@ -481,7 +482,7 @@ public class MainActivity extends ActionBarActivity {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
                             //et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            itemEt4.setText(ja1.toString());
+                         //   itemEt4.setText(ja1.toString());
 
                         }
                     });

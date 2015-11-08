@@ -12,13 +12,8 @@
         android:orderInCategory="102"
         app:showAsAction="never" />
 
-    <item android:id="@+id/action_addItem"
-        android:title="Add Inventory Item"
-        android:orderInCategory="103"
-        app:showAsAction="never" />
-
     <item android:id="@+id/action_editStock"
         android:title="Edit Inventory"
-        android:orderInCategory="104"
+        android:orderInCategory="103"
         app:showAsAction="never" />
 </menu>

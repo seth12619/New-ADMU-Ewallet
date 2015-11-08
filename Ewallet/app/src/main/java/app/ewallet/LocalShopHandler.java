@@ -170,4 +170,20 @@ public class LocalShopHandler extends SQLiteOpenHelper {
         db.execSQL(query);
         db.close();
     }
+
+    public void updateItemName(int itemId, String newName) {
+        SQLiteDatabase db = getWritableDatabase();
+        onCreate(db);
+        String query = "UPDATE " + TABLE_SHOP + " SET " + KEY_NAME + " = " + "('" + newName + "')" + " WHERE " + KEY_ITEM_ID + " = " + itemId;
+        db.execSQL(query);
+        db.close();
+    }
+
+    public void updateCost(int itemId, Double newCost) {
+        SQLiteDatabase db = getWritableDatabase();
+        onCreate(db);
+        String query = "UPDATE " + TABLE_SHOP + " SET " + KEY_COST + " = " + newCost + " WHERE " + KEY_ITEM_ID + " = " + itemId;
+        db.execSQL(query);
+        db.close();
+    }
 }

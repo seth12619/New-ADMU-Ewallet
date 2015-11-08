@@ -1,5 +1,6 @@
 package app.ewallet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -37,13 +38,18 @@ public class SubActivity extends AppCompatActivity {
             if (length < 3 || length != origLength) {
                 tv = (TextView) findViewById(R.id.tv_warning);
                 Toast toast = Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT);
+                toast.show();
                 tv.setText("Please input a number that has 3 or more digits, and does not start with a 0");
             } else {
                 //go to next activity
+                Intent intent0 = new Intent(this, SubActivity2.class);
+                intent0.putExtra("itemNo",stringItem);
+                startActivity(intent0);
             }
         } catch (Exception e) {
             tv = (TextView) findViewById(R.id.tv_warning);
             Toast toast = Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT);
+            toast.show();
             tv.setText("Please input a number that has 3 or more digits, and does not start with a 0");
         }
     }

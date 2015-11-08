@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Shows items at a certain shop terminal | Inventory
  * Created by Seth Legaspi on 10/29/2015.
@@ -167,5 +171,32 @@ public class LocalStockHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
         onCreate(db);
         db.close();
+    }
+
+    public String getJson() {
+        SQLiteDatabase db = getReadableDatabase();
+        JSONArray array = new JSONArray();
+        Cursor cursor;
+        String query = "SELECT * FROM " + TABLE_STOCK;
+        cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            int name = cursor.getInt(cursor.getColumnIndex(KEY_ID_SHOPTERMINAL));
+            int itemId = cursor.getInt(cursor.getColumnIndex(KEY_ID_ITEM));
+            String cost = cursor.getString(cursor.getColumnIndex(KEY_TS_STOCK));
+            int qty = cursor.getInt(cursor.getColumnIndex(KEY_QUANTIY));
+
+            JSONObject jo = new JSONObject();
+            try {
+                jo.put("shopID", name);
+                jo.put("itemID", itemId);
+                jo.put("ts", cost);
+                jo.put("qty", qty);
+                array.put(jo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return array.toString();
     }
 }

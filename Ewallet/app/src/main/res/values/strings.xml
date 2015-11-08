@@ -8,4 +8,5 @@
     <string name="title_activity_main3">MainActivity3</string>
     <string name="title_activity_main5">Main5Activity</string>
     <string name="title_activity_sub">subActivity</string>
+    <string name="title_activity_sub2">SubActivity2</string>
 </resources>
