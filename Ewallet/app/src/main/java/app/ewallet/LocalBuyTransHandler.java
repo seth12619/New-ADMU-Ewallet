@@ -8,6 +8,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Shows who bought at this store
  * Created by Seth Legaspi on 10/29/2015.
@@ -110,6 +114,33 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
             db.close();
             return false;
         }
+    }
+
+    public String getJson() {
+        SQLiteDatabase db = getReadableDatabase();
+        JSONArray array = new JSONArray();
+        Cursor cursor;
+        String query = "SELECT * FROM " + TABLE_BUY;
+        cursor = db.rawQuery(query,null);
+        while (cursor.moveToNext()) {
+            int buyTransactionID = cursor.getInt(cursor.getColumnIndex(KEY_ID_TRANSACTION));
+            String ts = cursor.getString(cursor.getColumnIndex(KEY_TS_TRANSACTION));
+            int idNum = cursor.getInt(cursor.getColumnIndex(KEY_ID_NUMBER));
+            String shopTerminal = cursor.getString(cursor.getColumnIndex(KEY_ID_SHOPTERMINAL));
+
+            JSONObject jo = new JSONObject();
+            try {
+                jo.put("btID",buyTransactionID);
+                jo.put("ts",ts);
+                jo.put("idnum", idNum);
+                jo.put("shopTerminal",shopTerminal);
+                array.put(jo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return array.toString();
     }
 
     public void drop() {

@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Shows how many of this item was bought at this Buy Transaction ID
  * Created by Seth Legaspi on 10/29/2015.
@@ -112,5 +116,28 @@ public class LocalitemOrder extends SQLiteOpenHelper {
         db.close();
     }
 
+    public String getJson() {
+        SQLiteDatabase db = getReadableDatabase();
+        JSONArray array = new JSONArray();
+        Cursor cursor;
+        String query = "SELECT * FROM " + TABLE_ITEM_ORDER;
+        cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            int buyTransactionID = cursor.getInt(cursor.getColumnIndex(KEY_ID_BUYTRANSACTION));
+            int itemID = cursor.getInt(cursor.getColumnIndex(KEY_ID_ITEM));
+            int qty = cursor.getInt(cursor.getColumnIndex(KEY_QUANTITY));
 
+            JSONObject jo = new JSONObject();
+            try {
+                jo.put("btID", buyTransactionID);
+                jo.put("itemID", itemID);
+                jo.put("qty", qty);
+
+                array.put(jo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return array.toString();
+    }
 }

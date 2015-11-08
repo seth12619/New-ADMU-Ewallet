@@ -183,8 +183,7 @@ public class MainActivity4 extends ActionBarActivity {
                 //
                 Log.i("ITEMQTY1", String.valueOf(shdb.getItem(itemID).getQty()));
                 Log.i("STOCKQTY1", String.valueOf(stdb.getStock(itemID).getQty()));
-                //Stock stock1 = new Stock(currPrimaryKey, "001", itemID, timeStamp, Integer.parseInt(qty1));
-                //stdb.addStock(stock1);
+
                 Stock stock1 = stdb.getStock(itemID);
                 //Stock stock1 = stdb.getStock(currPrimaryKey);
 
@@ -235,10 +234,8 @@ public class MainActivity4 extends ActionBarActivity {
 
                 Log.i("STOCKQTY2", String.valueOf(stdb.getStock(itemID).getQty()));
                 //
-                //Stock stock1 = new Stock(currPrimaryKey, "001", itemID, timeStamp, Integer.parseInt(qty1));
-                //stdb.addStock(stock1);
+
                 Stock stock1 = stdb.getStock(itemID);
-                //Stock stock2 = stdb.getStock(currPrimaryKey);
 
                 Log.i("StockPrimaryKey", String.valueOf(stock1.getPrim()));
                 Log.i("shopid", stock1.getShopID());

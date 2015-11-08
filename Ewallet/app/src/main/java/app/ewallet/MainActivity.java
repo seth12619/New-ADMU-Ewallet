@@ -89,11 +89,11 @@ public class MainActivity extends ActionBarActivity {
         DateFormat df6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timeStamp = df6.format(date);
 
-        //btdb.drop();
-        //BuyTransaction bt0 = new BuyTransaction(1, timeStamp, 131356, 001);
-        //btdb.addBuyTrans(bt0);
-        //bt0 = new BuyTransaction(2, timeStamp, 131356, 001);
-        //btdb.addBuyTrans(bt0);
+        btdb.drop();
+        BuyTransaction bt0 = new BuyTransaction(10010, timeStamp, 131356, "001");
+        btdb.addBuyTrans(bt0);
+        bt0 = new BuyTransaction(10011, timeStamp, 133821, "001");
+        btdb.addBuyTrans(bt0);
 
 
         //Setting up of the Stock syncing (We basically send a stock report to the database)
@@ -105,7 +105,6 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences.Editor editor = sp.edit();
         String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
         if(dbPrimaryKey.equals("initial")) {
-            btdb.drop();
             stdb.drop();
             int currPrimaryKey = stdb.generatePrimaryKey();
 
@@ -128,7 +127,6 @@ public class MainActivity extends ActionBarActivity {
             }
 
         } else {
-            Log.i("HAS LOCAL DB", dbPrimaryKey);
             /*
             stdb.drop();
             int currPrimaryKey = Integer.parseInt(dbPrimaryKey) + 1;
@@ -147,13 +145,13 @@ public class MainActivity extends ActionBarActivity {
             */
         }
 
-/**
+
         ioh.drop();
-        ItemOrder io = new ItemOrder(65, 101, 99);
-        ItemOrder io1 = new ItemOrder(66, 103, 120);
+        ItemOrder io = new ItemOrder(10020, 101, 50);
+        ItemOrder io1 = new ItemOrder(10021, 101, 60);
         ioh.addItemOrder(io);
         ioh.addItemOrder(io1);
-*/
+
 
 
         new AsyncMethod().execute();
@@ -386,20 +384,20 @@ public class MainActivity extends ActionBarActivity {
 
             /**
              *
-             * The one below is for syncing the Buy Transactions
+             * Syncing the Buy Transactions
              */
                 final JSONArray ja = new JSONArray();
                 JSONObject jo;
-                int i = 10001;
+                int i = 0;
             try {
-                while (btdb.checkExist(i)) {
-
-                        BuyTransaction tempBT = btdb.getBuyTransaction(i);
+                JSONArray btJA = new JSONArray(btdb.getJson());
+                while (i < btJA.length()) {
+                        JSONObject btJO = btJA.getJSONObject(i);
                         jo = new JSONObject();
-                        jo.put("buy_transaction_id", tempBT.getTransID()); //must parse store number here at the start
-                        jo.put("buy_transaction_ts", tempBT.getTimeStamp());
-                        jo.put("id_number", tempBT.getIDNum());
-                        jo.put("shop_terminal_id", tempBT.getShopID());
+                        jo.put("buy_transaction_id", btJO.getInt("btID")); //must parse store number here at the start
+                        jo.put("buy_transaction_ts", btJO.getString("ts"));
+                        jo.put("id_number", btJO.getInt("idnum"));
+                        jo.put("shop_terminal_id",btJO.getString("shopTerminal"));
                         i++;
                         ja.put(jo);
                     }
@@ -408,24 +406,15 @@ public class MainActivity extends ActionBarActivity {
 
             }
 
+                link = urlSync;
 
                 params = new RequestParams();
                 params.put("params", ja.toString());
-
-            requestHandle = client.post(urlSync, params, new AsyncHttpResponseHandler() {
+                final String paramString = params.toString();
+            requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, final byte[] responseBody) {
                         //never called
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EditText et = (EditText) findViewById(R.id.qty_editText3);
-                                //et.setText((new String(responseBody)));
-                                EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                                //itemEt4.setText(ja.toString());
-
-                            }
-                        });
                     }
                     @Override
                     public void onFailure(int statusCode, Header[] headers, final byte[] responseBody, Throwable error) {
@@ -433,9 +422,9 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void run() {
                                 EditText et = (EditText) findViewById(R.id.qty_editText3);
-                                et.setText((new String(responseBody)));
+                               // et.setText((new String(responseBody)));
                                 EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                                itemEt4.setText(ja.toString());
+                              //  itemEt4.setText(paramString);
 
                             }
                         });
@@ -445,7 +434,7 @@ public class MainActivity extends ActionBarActivity {
             /**
              * For syncing Stocks
             **/
-
+            link = urlStock;
 
             final JSONArray ja1 = new JSONArray();
             jo = new JSONObject();
@@ -469,7 +458,7 @@ public class MainActivity extends ActionBarActivity {
             params.put("params", ja1.toString());
             final String tomato = params.toString();
 
-            requestHandle = client.post(urlStock, params, new AsyncHttpResponseHandler() {
+            requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     //never called
@@ -482,7 +471,7 @@ public class MainActivity extends ActionBarActivity {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
                             //et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                         //   itemEt4.setText(ja1.toString());
+                         //   itemEt4.setText(params.toString());
 
                         }
                     });
@@ -492,17 +481,20 @@ public class MainActivity extends ActionBarActivity {
             /**
              * For syncing ItemOrders
              */
-/** delete this
+
+            link = urlItemOrder;
+
             final JSONArray ja2 = new JSONArray();
             jo = new JSONObject();
-            i = 10;
+            i = 0;
             try {
-                while (btdb.checkExist(i)) {
-                    Stock stock = sh.getStock(i);
+                JSONArray ioJA = new JSONArray(ioh.getJson());
+                while (i < ioJA.length()) {
+                    JSONObject ioJO = ioJA.getJSONObject(i);
                     jo = new JSONObject();
-                    jo.put("shop_terminal_id", stock.getShopID());
-                    jo.put("item_id", stock.getItemID());
-                    jo.put("stock_ts", stock.getTimeStamp());
+                    jo.put("buy_transaction_id", ioJO.getInt("btID"));
+                    jo.put("item_id", ioJO.getInt("itemID"));
+                    jo.put("quantity", ioJO.getInt("qty"));
                     i++;
                     ja2.put(jo);
                 }
@@ -512,8 +504,9 @@ public class MainActivity extends ActionBarActivity {
 
             params = new RequestParams();
             params.put("params", ja2.toString());
+            final String paramString0 = params.toString();
 
-            requestHandle = client.post(urlStock, params, new AsyncHttpResponseHandler() {
+            requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     //never called
@@ -524,14 +517,14 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                        //    et.setText((new String(responseBody)));
+                            et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                         //   itemEt4.setText(ja2.toString());
+                            itemEt4.setText(paramString0);
 
                         }
                     });
                 }
-            }); Delete this **/
+            });
 
             return null;
         }
