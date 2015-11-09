@@ -60,7 +60,7 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class MainActivity extends ActionBarActivity {
     SharedPreferences sp;
 
-
+    int currPrimaryKey, localCurrPrimaryKey;
     Boolean atLeastOne = false;
     String item1Name = "";
     String item2Name = "";
@@ -115,13 +115,15 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences.Editor editor = sp.edit();
         String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
         if(dbPrimaryKey.equals("initial")) {
+            ioh.drop();
             btdb.drop();
             stdb.drop();
-            int currPrimaryKey = stdb.generatePrimaryKey();
-            int localCurrPrimaryKey = btdb.generatePrimaryKey();
+            currPrimaryKey = stdb.generatePrimaryKey();
+            localCurrPrimaryKey = btdb.generatePrimaryKey();
             Log.i("initial", dbPrimaryKey);
             Log.i("initialkey", String.valueOf(localCurrPrimaryKey));
 
+            /*
             try {
                 JSONArray jaItem = new JSONArray(dbShop.getJson());
                 int i = 0;
@@ -136,7 +138,7 @@ public class MainActivity extends ActionBarActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+*/
         } else {
             /*
             stdb.drop();
@@ -156,15 +158,35 @@ public class MainActivity extends ActionBarActivity {
             */
         }
 
-
+/*
         ioh.drop();
         ItemOrder io = new ItemOrder(10020, 101, 50);
         ItemOrder io1 = new ItemOrder(10021, 101, 60);
         ioh.addItemOrder(io);
         ioh.addItemOrder(io1);
+*/
 
-
-
+        try {
+            JSONArray jaItem = new JSONArray(dbShop.getJson());
+            int i = 0;
+            while (i < jaItem.length()) {
+                JSONObject joItem = jaItem.getJSONObject(i);
+                sp = this.getPreferences(Context.MODE_PRIVATE);
+                if(stdb.checkExist(currPrimaryKey))
+                {
+                    currPrimaryKey++;
+                    i++;
+                }
+                else {
+                    Stock stock1 = new Stock(currPrimaryKey, "001", joItem.getInt("itemID"), timeStamp, joItem.getInt("qty"));
+                    stdb.addStock(stock1);
+                    currPrimaryKey += 1;
+                    i++;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         new AsyncMethod().execute();
 
 
@@ -434,7 +456,7 @@ public class MainActivity extends ActionBarActivity {
                                 EditText et = (EditText) findViewById(R.id.qty_editText3);
                               //  et.setText((new String(responseBody)));
                                 EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                                itemEt4.setText(ja.toString());
+                              //  itemEt4.setText(ja.toString());
 
                             }
                         });
@@ -537,8 +559,8 @@ public class MainActivity extends ActionBarActivity {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
                           //  et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                          //  itemEt4.setText(paramString0);
-
+                            itemEt4.setText(ja2.toString());
+                            ioh.drop();
                         }
                     });
                 }

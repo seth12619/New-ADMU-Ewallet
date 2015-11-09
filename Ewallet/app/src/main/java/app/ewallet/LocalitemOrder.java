@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,7 @@ import org.json.JSONObject;
  */
 public class LocalitemOrder extends SQLiteOpenHelper {
 
-    private int PRIMARY_KEY = 10001;
+    private int PRIMARY_KEY = 10010;
     private static final int DATABASE_VERSION = 1;
 
     //Database Name
@@ -26,6 +27,7 @@ public class LocalitemOrder extends SQLiteOpenHelper {
     private static final String TABLE_ITEM_ORDER = "item_order";
 
     //Students column names
+    private static final String KEY_ID_PRIMARYKEY = "My_Primary_Key";
     private static final String KEY_ID_BUYTRANSACTION = "Buy_Transaction_ID"; //1st column
     private static final String KEY_ID_ITEM = "Item_ID";
     private static final String KEY_QUANTITY = "quantity";
@@ -37,36 +39,53 @@ public class LocalitemOrder extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_ITEM_ORDER + "(" +
-                KEY_ID_BUYTRANSACTION + " INTEGER PRIMARY KEY," +
+                KEY_ID_PRIMARYKEY + " INTEGER PRIMARY KEY," +
+                KEY_ID_BUYTRANSACTION + " INT," +
                 KEY_ID_ITEM + " INT," +
                 KEY_QUANTITY + " INT" + ")";
         db.execSQL(CREATE_TABLE);
     }
 
+    public int generatePrimaryKey()
+    {
+        return PRIMARY_KEY++;
+    }
+    public int getPrimaryKey()
+    {
+        return PRIMARY_KEY;
+    }
 
     public void addItemOrder(ItemOrder itemOrder) {
         SQLiteDatabase db = getWritableDatabase();
         onCreate(db);
 
         ContentValues values = new ContentValues();
+        values.put(KEY_ID_PRIMARYKEY, getPrimaryKey());
         values.put(KEY_ID_BUYTRANSACTION, itemOrder.getBuyTransID()); //1st col
         values.put(KEY_ID_ITEM, itemOrder.getItemID()); //2nd col
         values.put(KEY_QUANTITY, itemOrder.getQty()); //3rd col
 
         db.insert(TABLE_ITEM_ORDER, null, values);
+        generatePrimaryKey();
         db.close();
     }
 
-    public ItemOrder getItemOrder(int id) {
+    public ItemOrder getItemOrder(int itemid) {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_ITEM_ORDER, new String[]{KEY_ID_BUYTRANSACTION, KEY_ID_ITEM,
-                        KEY_QUANTITY}, KEY_ID_BUYTRANSACTION + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
+                        KEY_QUANTITY}, KEY_ID_ITEM + "=?",
+                new String[]{String.valueOf(itemid)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         ItemOrder itemOrder = new ItemOrder();
+
+        /*
+        Log.i("cursor0", cursor.getString(0));
+        Log.i("cursor0", cursor.getString(1));
+        Log.i("cursor0", cursor.getString(2));
+        */
         itemOrder.setBuyTransID(Integer.parseInt(cursor.getString(0)));
         itemOrder.setItemID(Integer.parseInt(cursor.getString(1)));
         itemOrder.setQty(Integer.parseInt(cursor.getString(2)));
@@ -77,7 +96,7 @@ public class LocalitemOrder extends SQLiteOpenHelper {
 
     public boolean checkExist(int ID) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * from " + TABLE_ITEM_ORDER + " where " + KEY_ID_BUYTRANSACTION + " = " + ID;
+        String query = "SELECT * from " + TABLE_ITEM_ORDER + " where " + KEY_ID_PRIMARYKEY + " = " + ID;
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.getCount() < 1) {
@@ -100,14 +119,7 @@ public class LocalitemOrder extends SQLiteOpenHelper {
         //onCreate(db);
     }
 
-    public int generatePrimaryKey()
-    {
-        return PRIMARY_KEY++;
-    }
-    public int getPrimaryKey()
-    {
-        return PRIMARY_KEY;
-    }
+
 
     public void drop() {
         SQLiteDatabase db = getWritableDatabase();

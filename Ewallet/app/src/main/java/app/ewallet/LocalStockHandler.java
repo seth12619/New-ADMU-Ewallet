@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,17 +79,22 @@ public class LocalStockHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Stock getStock(int id) {
+    public Stock getStock(int itemid) {
         SQLiteDatabase db = getReadableDatabase();
 
 
         Cursor cursor = db.query(TABLE_STOCK, new String[]{KEY_PRIM, KEY_ID_SHOPTERMINAL, KEY_ID_ITEM,
-                        KEY_TS_STOCK, KEY_QUANTIY}, KEY_PRIM + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
+                        KEY_TS_STOCK, KEY_QUANTIY}, KEY_ID_ITEM + "=?",
+                new String[]{String.valueOf(itemid)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         Stock stock = new Stock();
+        Log.i("cursor0", cursor.getString(0));
+        Log.i("cursor1", cursor.getString(1));
+        Log.i("cursor2", cursor.getString(2));
+        Log.i("cursor3", cursor.getString(3));
+        Log.i("cursor4", cursor.getString(4));
         stock.setPrim(Integer.parseInt(cursor.getString(0)));
         stock.setShopID(cursor.getString(1));
         stock.setItemID(Integer.parseInt(cursor.getString(2)));

@@ -198,14 +198,15 @@ public class MainActivity4 extends ActionBarActivity {
                 Log.i("stocktimestamp", stock1.getTimeStamp());
                 Log.i("stockqty", String.valueOf(stock1.getQty()));
 
-                /*
+
                 ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
                 iodb.addItemOrder(itemOrder1);
-                itemOrder1 = iodb.getItemOrder(currPrimaryKey);
+                itemOrder1 = iodb.getItemOrder(Integer.parseInt(item1));
                 Log.i("IoPrimKey", String.valueOf(itemOrder1.getBuyTransID()));
                 Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
-                Log.i("ioqty", String.valueOf(itemOrder1.getQty()));*/
+                Log.i("ioqty", String.valueOf(itemOrder1.getQty()));
             }
+            
 
 
         }
@@ -254,12 +255,14 @@ public class MainActivity4 extends ActionBarActivity {
                 Log.i("stocktimestamp", stock1.getTimeStamp());
                 Log.i("stockqty", String.valueOf(stock1.getQty()));
 
-                //ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
-                //iodb.addItemOrder(itemOrder1);
-                //itemOrder1 = iodb.getItemOrder(currPrimaryKey);
-                //Log.i("IoPrimKey", String.valueOf(itemOrder1.getBuyTransID()));
-                //Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
-                //Log.i("ioqty", String.valueOf(qty1));
+
+                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item1), Integer.parseInt(qty1));
+                iodb.addItemOrder(itemOrder1);
+                itemOrder1 = iodb.getItemOrder(Integer.parseInt(item1));
+                Log.i("IoPrimKey", String.valueOf(itemOrder1.getBuyTransID()));
+                Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
+                Log.i("ioqty", String.valueOf(itemOrder1.getQty()));
+
             }
 
 
