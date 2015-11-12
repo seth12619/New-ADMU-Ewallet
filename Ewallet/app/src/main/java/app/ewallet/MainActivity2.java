@@ -185,7 +185,7 @@ public class MainActivity2 extends ActionBarActivity {
 
     public void login(View view) {
         LocalDBhandler db = new LocalDBhandler(this);
-        Intent intent0 = (Intent) new Intent(this, MainActivity3.class);
+        Intent intent0 = new Intent(this, MainActivity3.class);
         EditText ed = (EditText) findViewById(R.id.etidnumber);
         String idNumber = ed.getText().toString();
 

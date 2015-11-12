@@ -116,8 +116,8 @@ public class MainActivity extends ActionBarActivity {
         String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
         if(dbPrimaryKey.equals("initial")) {
             ioh.drop();
-            btdb.drop();
             stdb.drop();
+            btdb.drop();
             currPrimaryKey = stdb.generatePrimaryKey();
             localCurrPrimaryKey = btdb.generatePrimaryKey();
             Log.i("initial", dbPrimaryKey);
@@ -423,9 +423,12 @@ public class MainActivity extends ActionBarActivity {
                 JSONObject jo;
                 int i = 0;
             try {
-                JSONArray btJA = new JSONArray(btdb.getJson());
+                final JSONArray btJA = new JSONArray(btdb.getJson());
                 while (i < btJA.length()) {
                         JSONObject btJO = btJA.getJSONObject(i);
+
+
+                    if (btJO.getString("sendStamp").equals("false")) {
                         jo = new JSONObject();
                         jo.put("buy_transaction_id", btJO.getInt("btID")); //must parse store number here at the start
                         jo.put("buy_transaction_ts", btJO.getString("ts"));
@@ -433,6 +436,10 @@ public class MainActivity extends ActionBarActivity {
                         jo.put("shop_terminal_id",btJO.getString("shopTerminal"));
                         i++;
                         ja.put(jo);
+                    btdb.updateSendStamp(btJO.getInt("btID"),"potato");
+                    } else {
+                        i++;
+                    }
                     }
 
             } catch (JSONException e) {
@@ -454,7 +461,7 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void run() {
                                 EditText et = (EditText) findViewById(R.id.qty_editText3);
-                              //  et.setText((new String(responseBody)));
+                               // et.setText((new String(responseBody)));
                                 EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
                               //  itemEt4.setText(ja.toString());
 
@@ -493,16 +500,6 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, final byte[] responseBody) {
                     //never called
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            //et.setText((new String(responseBody)));
-                            EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            //itemEt4.setText(ja1.toString());
-
-                        }
-                    });
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, final byte[] responseBody, Throwable error) {
@@ -510,9 +507,9 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            //et.setText((new String(responseBody)));
+                         //   et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            //itemEt4.setText(tomato);
+                         //   itemEt4.setText(ja1.toString());
 
                         }
                     });
@@ -532,12 +529,12 @@ public class MainActivity extends ActionBarActivity {
                 JSONArray ioJA = new JSONArray(ioh.getJson());
                 while (i < ioJA.length()) {
                     JSONObject ioJO = ioJA.getJSONObject(i);
-                    jo = new JSONObject();
-                    jo.put("buy_transaction_id", ioJO.getInt("btID"));
-                    jo.put("item_id", ioJO.getInt("itemID"));
-                    jo.put("quantity", ioJO.getInt("qty"));
-                    i++;
-                    ja2.put(jo);
+                        jo = new JSONObject();
+                        jo.put("buy_transaction_id", ioJO.getInt("btID"));
+                        jo.put("item_id", ioJO.getInt("itemID"));
+                        jo.put("quantity", ioJO.getInt("qty"));
+                        i++;
+                        ja2.put(jo);
                 }
             } catch (JSONException e) {
 
@@ -557,7 +554,7 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                          //  et.setText((new String(responseBody)));
+                            et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
                             itemEt4.setText(ja2.toString());
                             ioh.drop();

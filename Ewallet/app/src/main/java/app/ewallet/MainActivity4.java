@@ -167,7 +167,7 @@ public class MainActivity4 extends ActionBarActivity {
             {
                 currPrimaryKey++;
             }
-            BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
+            BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001","false");
             btdb.addBuyTrans(bt);
             bt = btdb.getBuyTransaction(currPrimaryKey);
             Log.i("FIRST TIME", dbPrimaryKey);
@@ -221,7 +221,7 @@ public class MainActivity4 extends ActionBarActivity {
             }
 
             btdb.setPrimaryKey(currPrimaryKey);
-            BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
+            BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001", "false");
             btdb.addBuyTrans(bt);
             bt = btdb.getBuyTransaction(currPrimaryKey);
             Log.i("NOT FIRST TIME", dbPrimaryKey);
@@ -271,7 +271,7 @@ public class MainActivity4 extends ActionBarActivity {
 
 
         new AsyncMethod().execute();
-        Intent intent = (Intent) new Intent(this, MainActivity5.class);
+        Intent intent = new Intent(this, MainActivity5.class);
         startActivity(intent);
     }
 

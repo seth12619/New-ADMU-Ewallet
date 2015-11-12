@@ -88,7 +88,7 @@ public class MainActivity3 extends AppCompatActivity {
     public void confirmPIN(View view)
     {
         LocalDBhandler db = new LocalDBhandler(this);
-        Intent intent = (Intent) new Intent(this, MainActivity4.class);
+        Intent intent = new Intent(this, MainActivity4.class);
         EditText etPin = (EditText) findViewById(R.id.et_pin);
         String input = etPin.getText().toString();
         if(input.equals(""))

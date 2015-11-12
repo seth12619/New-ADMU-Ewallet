@@ -18,7 +18,7 @@ public class MainActivity5 extends AppCompatActivity {
     }
 
     public void returnHome(View view) {
-        Intent intent = (Intent) new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         this.finish();
     }

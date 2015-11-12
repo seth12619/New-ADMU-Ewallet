@@ -31,6 +31,7 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
     private static final String KEY_TS_TRANSACTION = "buy_transaction_TS";
     private static final String KEY_ID_NUMBER = "id_number";
     private static final String KEY_ID_SHOPTERMINAL = "shop_terminal_id";
+    private static final String KEY_SEND_STAMP = "send_stamp";
 
     public LocalBuyTransHandler(Context context) {
         super(context, DATABASE_NAME, null , DATABASE_VERSION);
@@ -42,7 +43,8 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
                   KEY_ID_TRANSACTION + " INTEGER PRIMARY KEY," +   //MUST MAKE BUY TRANSACTION ID AUTO INCREMENT. T.T
                   KEY_TS_TRANSACTION + " DATETIME," +
                   KEY_ID_NUMBER + " INT," +
-                  KEY_ID_SHOPTERMINAL + " TEXT" + ")";
+                  KEY_ID_SHOPTERMINAL + " TEXT," +
+                  KEY_SEND_STAMP + " TEXT" + ")";
         db.execSQL(CREATE_TABLE);
     }
 
@@ -73,6 +75,7 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
         values.put(KEY_TS_TRANSACTION, bt.getTimeStamp()); //2nd col
         values.put(KEY_ID_NUMBER, bt.getIDNum()); //3rd col
         values.put(KEY_ID_SHOPTERMINAL, bt.getShopID());
+        values.put(KEY_SEND_STAMP, bt.getSendStamp());
 
         db.insert(TABLE_BUY, null, values);
         db.close();
@@ -82,7 +85,7 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_BUY, new String[]{KEY_ID_TRANSACTION, KEY_TS_TRANSACTION,
-                        KEY_ID_NUMBER, KEY_ID_SHOPTERMINAL}, KEY_ID_TRANSACTION + "=?",
+                        KEY_ID_NUMBER, KEY_ID_SHOPTERMINAL, KEY_SEND_STAMP}, KEY_ID_TRANSACTION + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -92,6 +95,7 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
         transaction.setTimeStamp(cursor.getString(1));
         transaction.setIDNum(Integer.parseInt(cursor.getString(2)));
         transaction.setShopID(cursor.getString(3));
+        transaction.setSendStamp(cursor.getString(4));
 
         db.close();
         return transaction;
@@ -127,6 +131,7 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
             String ts = cursor.getString(cursor.getColumnIndex(KEY_TS_TRANSACTION));
             int idNum = cursor.getInt(cursor.getColumnIndex(KEY_ID_NUMBER));
             String shopTerminal = cursor.getString(cursor.getColumnIndex(KEY_ID_SHOPTERMINAL));
+            String sendStamp = cursor.getString(cursor.getColumnIndex(KEY_SEND_STAMP));
 
             JSONObject jo = new JSONObject();
             try {
@@ -134,6 +139,8 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
                 jo.put("ts",ts);
                 jo.put("idnum", idNum);
                 jo.put("shopTerminal",shopTerminal);
+                jo.put("sendStamp", sendStamp);
+
                 array.put(jo);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -147,6 +154,14 @@ public class LocalBuyTransHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUY);
         onCreate(db);
+        db.close();
+    }
+
+    public void updateSendStamp(int btID, String stamp) {
+        SQLiteDatabase db = getWritableDatabase();
+        onCreate(db);
+        String query = "UPDATE " + TABLE_BUY + " SET " + KEY_SEND_STAMP + " = '" + stamp + "' WHERE " + KEY_ID_TRANSACTION + " = " + btID;
+        db.execSQL(query);
         db.close();
     }
 

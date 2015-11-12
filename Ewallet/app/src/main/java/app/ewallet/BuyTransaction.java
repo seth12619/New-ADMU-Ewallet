@@ -8,6 +8,7 @@ public class BuyTransaction {
     private String _timeStamp;
     private int _id_number;
     private String _shop_terminal_id;
+    private String _send_stamp;
 
 
 
@@ -16,11 +17,20 @@ public class BuyTransaction {
     }
 
 
-    public BuyTransaction(int id, String timeStamp, int idNum, String terminalID) {
+    public BuyTransaction(int id, String timeStamp, int idNum, String terminalID, String sendStamp) {
         this._transaction_id = id;
         this._timeStamp = timeStamp;
         this._id_number = idNum;
         this._shop_terminal_id = terminalID;
+        this._send_stamp =  sendStamp;
+    }
+
+    public void setSendStamp(String stamp) {
+        this._send_stamp = stamp;
+    }
+
+    public String getSendStamp(){
+        return this._send_stamp;
     }
 
     public void setTransID(int id) {
