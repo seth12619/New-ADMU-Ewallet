@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,7 +95,7 @@ public class MainActivity2 extends ActionBarActivity {
             item2price.setText(order2Price);
             item2total.setText(String.valueOf(order2Total));
 
-            item2String = incomingIntent.getStringExtra("item2id");
+            item2String = incomingIntent.getStringExtra("itemid2");
             qty2String = incomingIntent.getStringExtra("qty2");
 
         }
@@ -159,6 +160,10 @@ public class MainActivity2 extends ActionBarActivity {
         TextView totalTv = (TextView) findViewById(R.id.allitems_total);
         totalTv.setText(String.valueOf(total));
         updateDatabase1(db);
+
+        Log.i("item1", item1String);
+        Log.i("item2", item2String);
+
     }
 
     @Override
@@ -215,6 +220,7 @@ public class MainActivity2 extends ActionBarActivity {
                 intent0.putExtra("qty4", qty4String);
 
                 startActivity(intent0);
+                this.finish();
             } else {
                 Toast toast = Toast.makeText(this, "WRONG CREDENTIALS", Toast.LENGTH_SHORT);
                 toast.show();
@@ -224,6 +230,8 @@ public class MainActivity2 extends ActionBarActivity {
             Toast toast = Toast.makeText(this, "WRONG CREDENTIALSS", Toast.LENGTH_SHORT);
             toast.show();
         }
+
+
 
 
 

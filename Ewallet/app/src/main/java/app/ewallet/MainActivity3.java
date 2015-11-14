@@ -118,6 +118,7 @@ public class MainActivity3 extends AppCompatActivity {
                 intent.putExtra("qty4", qty4);
 
                 startActivity(intent);
+                this.finish();
             }
             else
             {

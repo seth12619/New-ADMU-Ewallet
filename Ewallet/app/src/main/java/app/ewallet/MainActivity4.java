@@ -56,7 +56,9 @@ public class MainActivity4 extends ActionBarActivity {
     SharedPreferences sp;
     public String url = "http://188.166.253.236/index.php/User_Controller/balance";
     public String name = "0";
-    String item1,item2,item3,item4,qty1,qty2,qty3,qty4;
+    String item1;
+    String item2;
+    String item3,item4,qty1,qty2,qty3,qty4;
     public boolean getBalance = false;
 
     TextView tvID;
@@ -117,6 +119,16 @@ public class MainActivity4 extends ActionBarActivity {
         qty2 = intent.getStringExtra("qty2");
         qty3 = intent.getStringExtra("qty3");
         qty4 = intent.getStringExtra("qty4");
+
+        Log.i("item1", item1);
+
+        if(item2==null)
+        {
+            Log.i("item2", "item2null");
+        }
+        else {
+            Log.i("item2", item2);
+        }
     }
 
     @Override
@@ -206,6 +218,41 @@ public class MainActivity4 extends ActionBarActivity {
                 Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
                 Log.i("ioqty", String.valueOf(itemOrder1.getQty()));
             }
+
+            if(!item2.equals("")) {
+                //This is the new way we update the stocks
+                int itemID = Integer.parseInt(item2);
+                Item item = shdb.getItem(itemID);
+                int itemqty = item.getQty()-Integer.parseInt(qty2);
+                shdb.updateItem(itemID, itemqty);
+                stdb.update(itemID, itemqty);
+                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item2), Integer.parseInt(qty2));
+                iodb.addItemOrder(itemOrder1);
+                itemOrder1 = iodb.getItemOrder(Integer.parseInt(item2));
+            }
+            if(!item3.equals("")) {
+                //This is the new way we update the stocks
+                int itemID = Integer.parseInt(item3);
+                Item item = shdb.getItem(itemID);
+                int itemqty = item.getQty()-Integer.parseInt(qty3);
+                shdb.updateItem(itemID, itemqty);
+                stdb.update(itemID, itemqty);
+                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item3), Integer.parseInt(qty3));
+                iodb.addItemOrder(itemOrder1);
+            }
+            if(!item4.equals("")) {
+                //This is the new way we update the stocks
+                int itemID = Integer.parseInt(item4);
+                Item item = shdb.getItem(itemID);
+                int itemqty = item.getQty()-Integer.parseInt(qty4);
+                shdb.updateItem(itemID, itemqty);
+
+                stdb.update(itemID, itemqty);
+
+                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item4), Integer.parseInt(qty4));
+                iodb.addItemOrder(itemOrder1);
+
+            }
             
 
 
@@ -262,9 +309,38 @@ public class MainActivity4 extends ActionBarActivity {
                 Log.i("IoPrimKey", String.valueOf(itemOrder1.getBuyTransID()));
                 Log.i("ioitemId", String.valueOf(itemOrder1.getItemID()));
                 Log.i("ioqty", String.valueOf(itemOrder1.getQty()));
+            }
+            if(!item2.equals("")) {
+                //This is the new way we update the stocks
+                int itemID = Integer.parseInt(item2);
+                Item item = shdb.getItem(itemID);
+                int itemqty = item.getQty()-Integer.parseInt(qty2);
+                shdb.updateItem(item.getID(), itemqty);
+                stdb.update(item.getID(), itemqty);
+                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item2), Integer.parseInt(qty2));
+                iodb.addItemOrder(itemOrder1);
+            }
+            if(!item3.equals("")) {
+                //This is the new way we update the stocks
+                int itemID = Integer.parseInt(item3);
+                Item item = shdb.getItem(itemID);
+                int itemqty = item.getQty()-Integer.parseInt(qty3);
+                shdb.updateItem(item.getID(), itemqty);
+                stdb.update(item.getID(), itemqty);
+                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item3), Integer.parseInt(qty3));
+                iodb.addItemOrder(itemOrder1);
 
             }
-
+            if(!item4.equals("")) {
+                //This is the new way we update the stocks
+                int itemID = Integer.parseInt(item4);
+                Item item = shdb.getItem(itemID);
+                int itemqty = item.getQty()-Integer.parseInt(qty4);
+                shdb.updateItem(item.getID(), itemqty);
+                stdb.update(item.getID(), itemqty);
+                ItemOrder itemOrder1 = new ItemOrder(currPrimaryKey, Integer.parseInt(item4), Integer.parseInt(qty4));
+                iodb.addItemOrder(itemOrder1);
+            }
 
         }
 
@@ -277,58 +353,8 @@ public class MainActivity4 extends ActionBarActivity {
 
     public void exit(View view)
     {
-/*
-        Intent intent0 = getIntent();
-        final String idNumber = intent0.getExtras().getString("idnum");
-
-        Date date = new Date();
-        DateFormat df6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String timeStamp = df6.format(date);
-
-        //check first if db is initially started with starting primary key of 10, or db already has contents
-
-        sp = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
-        SharedPreferences.Editor editor = sp.edit();
-        String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
-        if(dbPrimaryKey.equals("initial"))
-        {
-            int currPrimaryKey = btdb.generatePrimaryKey();
-            String primaryKey = String.valueOf(currPrimaryKey);
-            sp = this.getPreferences(Context.MODE_PRIVATE);
-
-            editor.putString("PRIMARYKEY", primaryKey);
-            editor.commit();
-            BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
-            btdb.addBuyTrans(bt);
-            bt = btdb.getBuyTransaction(currPrimaryKey);
-            Log.i("PrimaryKey", String.valueOf(bt.getTransID()));
-            Log.i("Timestamp", bt.getTimeStamp());
-            Log.i("idnumber", String.valueOf(bt.getIDNum()));
-            Log.i("shopnumber", bt.getShopID());
-        }
-        else
-        {
-            int currPrimaryKey = Integer.parseInt(dbPrimaryKey) + 1;
-            btdb.setPrimaryKey(currPrimaryKey);
-            BuyTransaction bt = new BuyTransaction(currPrimaryKey, timeStamp, Integer.parseInt(idNumber),"001");
-            btdb.addBuyTrans(bt);
-            bt = btdb.getBuyTransaction(currPrimaryKey);
-            Log.i("PrimaryKey", String.valueOf(bt.getTransID()));
-            Log.i("Timestamp", bt.getTimeStamp());
-            Log.i("idnumber", String.valueOf(bt.getIDNum()));
-            Log.i("shopnumber", bt.getShopID());
-            Log.i("HEHE", "added to existing db");
-            String primKey = String.valueOf(btdb.getPrimaryKey());
-            editor.putString("PRIMARYKEY", primKey);
-            editor.commit();
-        }
-
-
-        new AsyncMethod().execute();
-        Intent intent = (Intent) new Intent(this, MainActivity5.class);
-        startActivity(intent);
-        //this.finish();*/
     }
+
     /**
      * This makes that 'loading screen' you see in mobile online games and such lol, it also does some stuff in the background, thus not
      * 'crashing' the system

@@ -66,7 +66,12 @@ public class LocalShopHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOP);
         onCreate(db);
     }
-
+    public void drop() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOP);
+        onCreate(db);
+        db.close();
+    }
     /**
      * Inserts new row with new item into the database Shop Table
      * @param item - The item object

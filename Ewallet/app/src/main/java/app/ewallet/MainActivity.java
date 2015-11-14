@@ -115,6 +115,7 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences.Editor editor = sp.edit();
         String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
         if(dbPrimaryKey.equals("initial")) {
+            //dbShop.drop();
             ioh.drop();
             stdb.drop();
             btdb.drop();
@@ -349,7 +350,7 @@ public class MainActivity extends ActionBarActivity {
         intent.putExtra("qty4", qty4);
 
         startActivity(intent);
-
+        this.finish();
     }
 
     /**
@@ -554,7 +555,7 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
-                            et.setText((new String(responseBody)));
+                            //et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
                             itemEt4.setText(ja2.toString());
                             ioh.drop();
