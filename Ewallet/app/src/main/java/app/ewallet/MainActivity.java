@@ -86,6 +86,7 @@ public class MainActivity extends ActionBarActivity {
     LocalBuyTransHandler btdb = new LocalBuyTransHandler(this);
     LocalStockHandler stdb = new LocalStockHandler(this);
     LocalitemOrder ioh = new LocalitemOrder(this);
+    LocalBalanceHandler bdb = new LocalBalanceHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,10 +120,14 @@ public class MainActivity extends ActionBarActivity {
             ioh.drop();
             stdb.drop();
             btdb.drop();
+            bdb.drop();
             currPrimaryKey = stdb.generatePrimaryKey();
             localCurrPrimaryKey = btdb.generatePrimaryKey();
             Log.i("initial", dbPrimaryKey);
             Log.i("initialkey", String.valueOf(localCurrPrimaryKey));
+
+            Balance balance = new Balance("001",0.0);
+            bdb.addShopBalance(balance);
 
             /*
             try {
@@ -208,7 +213,17 @@ public class MainActivity extends ActionBarActivity {
         switch (id) {
             case  R.id.action_sync: new AsyncMethod().execute();
                 break;
-            case R.id.action_showBalance: //put toast for Terminal's current balance here
+            case R.id.action_showBalance:
+                try {
+                    JSONArray ja = new JSONArray(bdb.getJson());
+                    JSONObject jo = ja.getJSONObject(0);
+                    String tempID = jo.getString("id");
+                    String thisBalance = String.valueOf(jo.getDouble("bal"));
+
+                    Toast toast = Toast.makeText(this, "Terminal " + tempID + " balance: " + thisBalance, Toast.LENGTH_SHORT);
+                    toast.show();
+                } catch (JSONException e) {
+                }
                 break;
             case R.id.action_editStock: Intent intent0 = new Intent(this, SubActivity.class);
                 startActivity(intent0);

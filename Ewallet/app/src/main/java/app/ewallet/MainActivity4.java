@@ -82,6 +82,9 @@ public class MainActivity4 extends ActionBarActivity {
     //What we need to update in place of stocks
     LocalShopHandler shdb = new LocalShopHandler(this);
 
+    //LocalBalanceDB handler
+    LocalBalanceHandler bdb = new LocalBalanceHandler(this);
+
 
     //tv_actualbalance, tv_balance
 
@@ -455,7 +458,7 @@ public class MainActivity4 extends ActionBarActivity {
                 try {
                     try {
                         String link = url;
-                        Double dTotal = Double.parseDouble(total);
+                        final Double dTotal = Double.parseDouble(total);
                         Double dNewBal = Double.parseDouble(newBalTemp) - dTotal;
                         String newBal = String.valueOf(dNewBal);
 
@@ -473,19 +476,10 @@ public class MainActivity4 extends ActionBarActivity {
                             @Override
                             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                                 try {
-                                    final String potato = new String(responseBody);
-                                    JSONObject jo = new JSONObject(potato);
-                                    final String balance = jo.getString("balance");
-                                    newBalTemp = balance;
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            tvID.setText(potato);
-                                            tvID.setText(stud.getName());
-                                            //tvBal.setTextSize(40);
-                                            tvBal.setText(balance);
-                                        }
-                                    });
+                                    JSONArray tempJA = new JSONArray(bdb.getJson());
+                                    JSONObject tempJO = tempJA.getJSONObject(0);
+                                    Double oldBal = tempJO.getDouble("bal");
+                                    bdb.updateBalance(001, oldBal+dTotal );
                                 } catch (JSONException e) {
 
                                 }
