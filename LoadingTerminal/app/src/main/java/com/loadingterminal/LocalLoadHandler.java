@@ -14,7 +14,7 @@ import org.json.JSONObject;
  * Created by Seth Legaspi on 11/15/2015.
  */
 public class LocalLoadHandler extends SQLiteOpenHelper {
-    private int PRIMARY_KEY = 10001; //Most significant digit is the store number
+    private int PRIMARY_KEY = 100001; //Most significant digit is the store number
     //Database Version
     private static final int DATABASE_VERSION = 1;
 
@@ -26,11 +26,11 @@ public class LocalLoadHandler extends SQLiteOpenHelper {
 
     //Students column names
     private static final String KEY_ID_TRANSACTION = "ID_Transaction"; //1st column
-    private static final String KEY_AMOUNT = "Amount Loaded"; //2nd column
+    private static final String KEY_AMOUNT = "Amount_Loaded"; //2nd column
     private static final String KEY_TRANSACTION_TS = "Timestamp"; //3rd column
-    private static final String KEY_ID_NUMBER = "ID number";
-    private static final String KEY_TERMINAL_ID = "Terminal ID";
-    private static final String KEY_SEND_STAMP = "Send Stamp";
+    private static final String KEY_ID_NUMBER = "ID_number";
+    private static final String KEY_TERMINAL_ID = "Terminal_ID";
+    private static final String KEY_SEND_STAMP = "Send_Stamp";
 
     public LocalLoadHandler(Context context) {
         super(context, DATABASE_NAME, null , DATABASE_VERSION);

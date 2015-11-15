@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         jo.put("load_terminal_id", ldJO.getString("loadTerminal"));
                         i++;
                         ja.put(jo);
-                        ldb.updateSendStamp(ldJO.getInt("btID"),"potato");
+                        ldb.updateSendStamp(ldJO.getInt("loadID"),"potato");
                     } else {
                         i++;
                     }
@@ -210,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             Toast toast = Toast.makeText(context, "Send Success", Toast.LENGTH_SHORT);
                             toast.show();
+                            EditText ed = (EditText) findViewById(R.id.id_number);
+                            ed.setText(ja.toString());
 
                         }
                     });
