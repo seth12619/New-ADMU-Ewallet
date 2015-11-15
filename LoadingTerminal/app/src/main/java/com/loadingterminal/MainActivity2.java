@@ -1,7 +1,9 @@
 package com.loadingterminal;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,14 +22,21 @@ import com.loopj.android.http.SyncHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity2 extends AppCompatActivity {
+    SharedPreferences sp;
+
     public String urlBal = "http://188.166.253.236/index.php/User_Controller/balance";
 
     public String idNum = "0";
 
     LocalUserDBhandler db = new LocalUserDBhandler(this);
+    LocalLoadHandler ldb = new LocalLoadHandler(this);
 
     User user = new User();
 
@@ -69,6 +78,47 @@ public class MainActivity2 extends AppCompatActivity {
 
         Intent intent0 = (Intent) new Intent(this, MainActivity3.class);
         startActivity(intent0);
+    }
+
+    public void addRow() {
+        Date date = new Date();
+        DateFormat df6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timeStamp = df6.format(date);
+
+        sp = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+        SharedPreferences.Editor editor = sp.edit();
+        String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
+        if(dbPrimaryKey.equals("initial"))
+        {
+            int currPrimaryKey = ldb.generatePrimaryKey();
+            String primaryKey = String.valueOf(currPrimaryKey);
+            sp = this.getPreferences(Context.MODE_PRIVATE);
+
+            editor.putString("PRIMARYKEY", primaryKey);
+            editor.commit();
+            //iterates until btdb gets highest primary Key
+            while(ldb.checkExist(currPrimaryKey))
+            {
+                currPrimaryKey++;
+            }
+            LoadTransaction lt = new LoadTransaction(currPrimaryKey, add, timeStamp, Integer.parseInt(idNum),"001","false");
+            ldb.addTransaction(lt);
+            lt = ldb.getLoadTransaction(currPrimaryKey);
+
+        } else {
+            int currPrimaryKey = Integer.parseInt(dbPrimaryKey);
+            //iterates until btdb gets highest primary Key
+            while(ldb.checkExist(currPrimaryKey))
+            {
+                currPrimaryKey++;
+            }
+
+            ldb.setPrimaryKey(currPrimaryKey);
+            LoadTransaction lt = new LoadTransaction(currPrimaryKey, add, timeStamp, Integer.parseInt(idNum),"001","false");
+            ldb.addTransaction(lt);
+            lt = ldb.getLoadTransaction(currPrimaryKey);
+
+        }
     }
 
     // Shortcut btns
@@ -174,17 +224,12 @@ public class MainActivity2 extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         //is not called
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvBal.setText("onSuccess");
-                            }
-                        });
                     }
 
                     // Happens when there's an error 4xx, and this is the thing that gets called somehow... and it works.
                     @Override
                     public void onFailure(int statusCode, Header[] headers, final byte[] responseBody, Throwable error) {
+                    addRow();
                     }
                 });
 

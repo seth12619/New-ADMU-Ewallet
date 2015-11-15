@@ -1,7 +1,9 @@
 package com.loadingterminal;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,13 +24,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 
 public class MainActivity extends AppCompatActivity {
+    SharedPreferences sp;
+
+    int currPrimaryKey;
 
     public String urlUsers = "http://188.166.253.236/index.php/User_Controller/users";
+    public String urlLoad = "http://188.166.253.236/index.php/Load_Transaction_Controller/sync";
 
 
     LocalUserDBhandler db = new LocalUserDBhandler(this);
+    LocalLoadHandler ldb = new LocalLoadHandler(this);
+
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        sp = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+        SharedPreferences.Editor editor = sp.edit();
+        String dbPrimaryKey = sp.getString("PRIMARYKEY", "initial");
+        if(dbPrimaryKey.equals("initial")) {
+            db.drop();
+            ldb.drop();
+
+            currPrimaryKey = ldb.generatePrimaryKey();
+        } else {        }
+
 
         new AsyncMethod().execute();
     }
@@ -140,6 +162,60 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            /**
+             * One below is for syncing the loadTransaction
+             */
+            final JSONArray ja = new JSONArray();
+            JSONObject jo;
+            int i = 0;
+            try {
+                final JSONArray btJA = new JSONArray(ldb.getJson());
+                while (i < btJA.length()) {
+                    JSONObject ldJO = btJA.getJSONObject(i);
+
+
+                    if (ldJO.getString("sendStamp").equals("false")) {
+                        jo = new JSONObject();
+                        jo.put("load_transaction_id", ldJO.getInt("loadID")); //must parse store number here at the start
+                        jo.put("amount_loaded", ldJO.getDouble("amount"));
+                        jo.put("load_transaction_ts", ldJO.getString("ts"));
+                        jo.put("id_number",ldJO.getString("idnum"));
+                        jo.put("load_terminal_id", ldJO.getString("loadTerminal"));
+                        i++;
+                        ja.put(jo);
+                        ldb.updateSendStamp(ldJO.getInt("btID"),"potato");
+                    } else {
+                        i++;
+                    }
+                }
+
+            } catch (JSONException e) {
+
+            }
+
+            link = urlLoad;
+
+            ByteArrayEntity be = new ByteArrayEntity(("params=" + ja.toString()).getBytes());
+            final String paramString = be.toString();
+            requestHandle = client.post(null, link, be, "application/json",new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, final byte[] responseBody) {
+                    //never called
+                }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, final byte[] responseBody, Throwable error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(context, "Send Success", Toast.LENGTH_SHORT);
+                            toast.show();
+
+                        }
+                    });
+                }
+            });
+
 
 
 

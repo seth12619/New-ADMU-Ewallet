@@ -225,9 +225,9 @@ public class MainActivity extends ActionBarActivity {
                 } catch (JSONException e) {
                 }
                 break;
-            case R.id.action_editStock: Intent intent0 = new Intent(this, SubActivity.class);
-                startActivity(intent0);
-                break;
+            //case R.id.action_editStock: Intent intent0 = new Intent(this, SubActivity.class);
+               // startActivity(intent0);
+              //  break;
         }
         //noinspection SimplifiableIfStatement
 
