@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
@@ -187,7 +190,22 @@ public class MainActivity2 extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+    public void scan(View view)
+    {
+        IntentIntegrator integrator = new IntentIntegrator(MainActivity2.this);
+        integrator.initiateScan();
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            String re = scanResult.getContents();
+            Log.d("code", re);
+            EditText et = (EditText) findViewById(R.id.etidnumber);
+            et.setText(re);
+            //Intent intentshit = new Intent(this,MainActivity2.class);
+            //startActivity(intentshit);
+        }
+    }
     public void login(View view) {
         LocalDBhandler db = new LocalDBhandler(this);
         Intent intent0 = new Intent(this, MainActivity3.class);

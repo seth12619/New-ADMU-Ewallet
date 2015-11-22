@@ -390,6 +390,16 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/tv_total1"
             android:layout_toEndOf="@+id/tv_total1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scan ID number"
+            android:id="@+id/scan"
+            android:layout_below="@+id/tv_total1"
+            android:layout_toLeftOf="@+id/tv_total1"
+            android:layout_toStartOf="@+id/tv_total1"
+            android:onClick="scan"/>
     </RelativeLayout>
 
 

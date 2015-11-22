@@ -8,12 +8,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
@@ -83,6 +87,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void scan(View view)
+    {
+        IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+        integrator.initiateScan();
+
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            String re = scanResult.getContents();
+            Log.d("code", re);
+            EditText et = (EditText) findViewById(R.id.id_number);
+            et.setText(re);
+
+        }
+
+    }
     /**
      * Called when confirm button is pressed
      * @param view
@@ -211,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast toast = Toast.makeText(context, "Send Success", Toast.LENGTH_SHORT);
                             toast.show();
                             EditText ed = (EditText) findViewById(R.id.id_number);
-                            ed.setText(ja.toString());
+                            //ed.setText(ja.toString());
 
                         }
                     });
