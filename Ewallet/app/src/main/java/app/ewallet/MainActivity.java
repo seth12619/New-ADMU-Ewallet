@@ -293,79 +293,71 @@ public class MainActivity extends ActionBarActivity {
         String item3 = itemEt3.getText().toString();
         String item4 = itemEt4.getText().toString();
 
-
-        if(!item1.equals(""))
-        {
-            int item1Int = Integer.parseInt(item1);
-            Item actualItem1 = dbShop.getItem(item1Int);
-            item1Name = actualItem1.getName();
-            item1Price = String.valueOf(actualItem1.getCost());
-        }
-        else
-        {
-            item1Name = "";
-            item1Price = "";
-        }
-        intent.putExtra("itemid1", item1);
-        intent.putExtra("item1", item1Name);
-        intent.putExtra("item1Price", item1Price);
-        intent.putExtra("qty1", qty1);
+        try {
+            if (!item1.equals("")) {
+                int item1Int = Integer.parseInt(item1);
+                Item actualItem1 = dbShop.getItem(item1Int);
+                item1Name = actualItem1.getName();
+                item1Price = String.valueOf(actualItem1.getCost());
+            } else {
+                item1Name = "";
+                item1Price = "";
+            }
+            intent.putExtra("itemid1", item1);
+            intent.putExtra("item1", item1Name);
+            intent.putExtra("item1Price", item1Price);
+            intent.putExtra("qty1", qty1);
 
 
-        if(!item2.equals(""))
-        {
-            int item2Int = Integer.parseInt(item2);
-            Item actualItem2 = dbShop.getItem(item2Int);
-            item2Name = actualItem2.getName();
-            item2Price = String.valueOf(actualItem2.getCost());
-        }
-        else
-        {
-            item2Name = "";
-            item2Price = "";
-        }
-        intent.putExtra("itemid2", item2);
-        intent.putExtra("item2", item2Name);
-        intent.putExtra("item2Price", item2Price);
-        intent.putExtra("qty2", qty2);
+            if (!item2.equals("")) {
+                int item2Int = Integer.parseInt(item2);
+                Item actualItem2 = dbShop.getItem(item2Int);
+                item2Name = actualItem2.getName();
+                item2Price = String.valueOf(actualItem2.getCost());
+            } else {
+                item2Name = "";
+                item2Price = "";
+            }
+            intent.putExtra("itemid2", item2);
+            intent.putExtra("item2", item2Name);
+            intent.putExtra("item2Price", item2Price);
+            intent.putExtra("qty2", qty2);
 
-        if(!item3.equals(""))
-        {
-            int item3Int = Integer.parseInt(item3);
-            Item actualItem3 = dbShop.getItem(item3Int);
-            item3Name = actualItem3.getName();
-            item3Price = String.valueOf(actualItem3.getCost());
-        }
-        else
-        {
-            item3Name = "";
-            item3Price = "";
-        }
-        intent.putExtra("itemid3", item3);
-        intent.putExtra("item3", item3Name);
-        intent.putExtra("item3Price", item3Price);
-        intent.putExtra("qty3", qty3);
+            if (!item3.equals("")) {
+                int item3Int = Integer.parseInt(item3);
+                Item actualItem3 = dbShop.getItem(item3Int);
+                item3Name = actualItem3.getName();
+                item3Price = String.valueOf(actualItem3.getCost());
+            } else {
+                item3Name = "";
+                item3Price = "";
+            }
+            intent.putExtra("itemid3", item3);
+            intent.putExtra("item3", item3Name);
+            intent.putExtra("item3Price", item3Price);
+            intent.putExtra("qty3", qty3);
 
 
-        if(!item4.equals(""))
-        {
-            int item4Int = Integer.parseInt(item4);
-            Item actualItem4 = dbShop.getItem(item4Int);
-            item4Name = actualItem4.getName();
-            item4Price = String.valueOf(actualItem4.getCost());
-        }
-        else
-        {
-            item4Name = "";
-            item4Price = "";
-        }
-        intent.putExtra("itemid4", item4);
-        intent.putExtra("item4", item4Name);
-        intent.putExtra("item4Price", item4Price);
-        intent.putExtra("qty4", qty4);
+            if (!item4.equals("")) {
+                int item4Int = Integer.parseInt(item4);
+                Item actualItem4 = dbShop.getItem(item4Int);
+                item4Name = actualItem4.getName();
+                item4Price = String.valueOf(actualItem4.getCost());
+            } else {
+                item4Name = "";
+                item4Price = "";
+            }
+            intent.putExtra("itemid4", item4);
+            intent.putExtra("item4", item4Name);
+            intent.putExtra("item4Price", item4Price);
+            intent.putExtra("qty4", qty4);
 
-        startActivity(intent);
-        this.finish();
+            startActivity(intent);
+            this.finish();
+        } catch (Exception e) {
+            Toast toast = Toast.makeText(this, "Item ID Error", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     /**
