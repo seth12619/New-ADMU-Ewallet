@@ -413,11 +413,7 @@ public class MainActivity extends ActionBarActivity {
                             }
 
                         } catch (JSONException e) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                }
-                            });
+
                         }
                     }
                 });
@@ -564,7 +560,7 @@ public class MainActivity extends ActionBarActivity {
                             EditText et = (EditText) findViewById(R.id.qty_editText3);
                             //et.setText((new String(responseBody)));
                             EditText itemEt4 = (EditText) findViewById(R.id.item_editText4);
-                            itemEt4.setText(ja2.toString());
+                           // itemEt4.setText(ja2.toString());
                             ioh.drop();
                         }
                     });

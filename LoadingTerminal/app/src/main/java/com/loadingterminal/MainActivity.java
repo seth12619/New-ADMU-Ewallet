@@ -226,16 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, final byte[] responseBody, Throwable error) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast toast = Toast.makeText(context, "Send Success", Toast.LENGTH_SHORT);
-                            toast.show();
-                            EditText ed = (EditText) findViewById(R.id.id_number);
-                            //ed.setText(ja.toString());
 
-                        }
-                    });
                 }
             });
 

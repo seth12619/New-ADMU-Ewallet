@@ -9,8 +9,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -42,11 +45,34 @@ public class PreActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_preact, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_sync:
+                new AsyncMethod().execute();
+                break;
+            default: break;
+        }
+        return false;
+    }
+
     public void startButton(View view)
     {
         Intent intent = new Intent(this, MainActivity.class);
         EditText et = (EditText) findViewById(R.id.et_pin1);
         String input = et.getText().toString();
+        TextView tv = (TextView) findViewById(R.id.tv_error);
+        tv.setText("");
         if(input.equals(shopPin) && !(input.equals("ErrorX5C")))
         {
             startActivity(intent);
@@ -57,7 +83,7 @@ public class PreActivity extends AppCompatActivity {
             toast.show();
         }
         else{
-            Toast toast = Toast.makeText(this, "INVALID PIN " + shopPin, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "INVALID PIN ", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
@@ -102,8 +128,23 @@ public class PreActivity extends AppCompatActivity {
                         final String thePin = jo.getString("pin");
                         shopPin = thePin;
 
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast toast = Toast.makeText(context, "Connect Success", Toast.LENGTH_SHORT);
+                                    toast.show();;
+                                }
+                            });
+
                         } catch (Exception e) {
                         shopPin = "ErrorX5C";
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    TextView tv = (TextView) findViewById(R.id.tv_error);
+                                    tv.setText("Connection Error, please reconnect using the button in the Control Panel Above");
+                                }
+                            });
                         }
 
                     }
