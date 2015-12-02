@@ -294,8 +294,8 @@ public class MainActivity extends ActionBarActivity {
         String item4 = itemEt4.getText().toString();
 
         try {
-            if((Integer.parseInt(qty1) > dbShop.getItem(Integer.parseInt(item1)).getQty() ) || Integer.parseInt(qty2) > dbShop.getItem(Integer.parseInt(item2)).getQty()
-                    || Integer.parseInt(qty3) > dbShop.getItem(Integer.parseInt(item3)).getQty() || Integer.parseInt(qty4) > dbShop.getItem(Integer.parseInt(item4)).getQty()) {
+            if(!(Integer.parseInt(qty1) > dbShop.getItem(Integer.parseInt(item1)).getQty()  || Integer.parseInt(qty2) > dbShop.getItem(Integer.parseInt(item2)).getQty()
+                    || Integer.parseInt(qty3) > dbShop.getItem(Integer.parseInt(item3)).getQty() || Integer.parseInt(qty4) > dbShop.getItem(Integer.parseInt(item4)).getQty())) {
 
                 if (!item1.equals("")) {
                     int item1Int = Integer.parseInt(item1);
