@@ -64,8 +64,8 @@ public class SubActivity2 extends AppCompatActivity {
 
         if (shdb.checkExist(itemNo)) {
             shdb.updateItem(itemNo, Integer.parseInt(qty.getText().toString()));
-            shdb.updateItemName(itemNo, itemName.getText().toString());
-            shdb.updateCost(itemNo, Double.parseDouble(cost.getText().toString()));
+           // shdb.updateItemName(itemNo, itemName.getText().toString());
+           // shdb.updateCost(itemNo, Double.parseDouble(cost.getText().toString()));
             Intent intent0 = new Intent(this, MainActivity.class);
             startActivity(intent0);
         } else {

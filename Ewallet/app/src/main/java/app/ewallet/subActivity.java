@@ -11,11 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 //This activity is where the edit stocks stuff should go to
 public class SubActivity extends AppCompatActivity {
 
     EditText itemNum;
     TextView tv;
+    LocalShopHandler shdb = new LocalShopHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +45,13 @@ public class SubActivity extends AppCompatActivity {
                 tv.setText("Please input a number that has 3 or more digits, and does not start with a 0");
             } else {
                 //go to next activity
-                Intent intent0 = new Intent(this, SubActivity2.class);
-                intent0.putExtra("itemNo",stringItem);
-                startActivity(intent0);
+                if(shdb.checkExist(theItemNo)) {
+                    Intent intent0 = new Intent(this, SubActivity2.class);
+                    intent0.putExtra("itemNo", stringItem);
+                    startActivity(intent0);
+                } else {
+                    tv.setText("Item does not exist");
+                }
             }
         } catch (Exception e) {
             tv = (TextView) findViewById(R.id.tv_warning);
