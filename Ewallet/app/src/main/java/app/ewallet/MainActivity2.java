@@ -190,7 +190,7 @@ public class MainActivity2 extends ActionBarActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case  R.id.action_sync: View loginBTN = findViewById(R.id.button);
+            case  R.id.action_manual: View loginBTN = findViewById(R.id.button);
                 loginBTN.setVisibility(View.VISIBLE);
                 EditText ed = (EditText) findViewById(R.id.etidnumber);
                 ed.setVisibility(View.VISIBLE);
@@ -209,7 +209,7 @@ public class MainActivity2 extends ActionBarActivity {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
             String re = scanResult.getContents();
-            Log.d("code", re);
+           // Log.d("code", re);
             EditText et = (EditText) findViewById(R.id.etidnumber);
             et.setText(re);
             loginBar();
