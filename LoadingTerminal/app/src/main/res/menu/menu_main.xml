@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item android:id="@+id/action_manual"
+        android:title="Manual Entry"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
 </menu>

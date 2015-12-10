@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        EditText et = (EditText) findViewById(R.id.id_number);
+        et.setVisibility(View.INVISIBLE);
+        View btn = findViewById(R.id.confirm_btn);
+        btn.setVisibility(View.INVISIBLE);
+
 
         sp = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
         SharedPreferences.Editor editor = sp.edit();
@@ -79,9 +84,15 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_sync) { new AsyncMethod().execute();
-            return true;
+        switch (id) {
+            case  R.id.action_sync: new AsyncMethod().execute();
+                break;
+            case R.id.action_manual:EditText et = (EditText) findViewById(R.id.id_number);
+                et.setVisibility(View.VISIBLE);
+                View btn = findViewById(R.id.confirm_btn);
+                btn.setVisibility(View.VISIBLE);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -97,12 +108,39 @@ public class MainActivity extends AppCompatActivity {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
             String re = scanResult.getContents();
-            Log.d("code", re);
+           // Log.d("code", re);
             EditText et = (EditText) findViewById(R.id.id_number);
             et.setText(re);
-
+            confirmScan();
         }
 
+    }
+
+    public void confirmScan() {
+        EditText ed = (EditText) findViewById(R.id.id_number);
+        Intent intent0 = (Intent) new Intent(this, MainActivity2.class);
+        String idNumber = ed.getText().toString();
+        int idNumberint;
+        if(idNumber.equals("")) {
+            idNumberint = 0;
+        } else {
+            idNumberint = Integer.parseInt(idNumber);
+        }
+
+        try {
+            User student = db.getStudent(idNumberint);
+            if (student.getID() > 0) {
+                intent0.putExtra("idnum", idNumber);
+                startActivity(intent0);
+            } else {
+                Toast toast = Toast.makeText(this, "ID Number Not in Database", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        } catch (Exception e)
+        {
+            Toast toast = Toast.makeText(this, "Wrong Input!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
     /**
      * Called when confirm button is pressed
