@@ -20,7 +20,7 @@ public class SubActivity2 extends AppCompatActivity {
 
     TextView itemName;
     TextView cost;
-    TextView qty;
+    EditText qty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class SubActivity2 extends AppCompatActivity {
     public void setEditItem(int itemNo) {
         itemName = (TextView) findViewById(R.id.tv_itemName2);
         cost = (TextView) findViewById(R.id.tv_cost2);
-        qty = (TextView) findViewById(R.id.tv_qty2);
+        qty = (EditText) findViewById(R.id.tv_qty2);
 
         Item item = shdb.getItem(itemNo);
 
@@ -57,15 +57,15 @@ public class SubActivity2 extends AppCompatActivity {
     public void addItem(View view) {
         itemName = (TextView) findViewById(R.id.tv_itemName2);
         cost = (TextView) findViewById(R.id.tv_cost2);
-        qty = (TextView) findViewById(R.id.tv_qty2);
+        qty = (EditText) findViewById(R.id.tv_qty2);
 
         Intent intent = getIntent();
         int itemNo = Integer.parseInt(intent.getStringExtra("itemNo"));
 
         if (shdb.checkExist(itemNo)) {
             shdb.updateItem(itemNo, Integer.parseInt(qty.getText().toString()));
-           // shdb.updateItemName(itemNo, itemName.getText().toString());
-           // shdb.updateCost(itemNo, Double.parseDouble(cost.getText().toString()));
+            // shdb.updateItemName(itemNo, itemName.getText().toString());
+            // shdb.updateCost(itemNo, Double.parseDouble(cost.getText().toString()));
             Intent intent0 = new Intent(this, MainActivity.class);
             startActivity(intent0);
         } else {

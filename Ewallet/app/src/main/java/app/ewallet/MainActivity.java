@@ -79,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
     public String urlSync = "http://188.166.253.236/index.php/Buy_Transaction_Controller/sync";
     public String urlStock = "http://188.166.253.236/index.php/Stock_Controller/sync";
     public String urlItemOrder = "http://188.166.253.236/index.php/Item_Order_Controller/sync";
-    public String urlTerminalBalance = "";
+    public String urlTerminalBalance = "http://188.166.253.236/index.php/Shop_Terminal_Controller/balance";
 
     Context context = this;
 
@@ -297,8 +297,8 @@ public class MainActivity extends ActionBarActivity {
         String item4 = itemEt4.getText().toString();
 
         try {
-            if((Integer.parseInt(qty1) < dbShop.getItem(Integer.parseInt(item1)).getQty() ) || Integer.parseInt(qty2) < dbShop.getItem(Integer.parseInt(item2)).getQty()
-                    || Integer.parseInt(qty3) < dbShop.getItem(Integer.parseInt(item3)).getQty() || Integer.parseInt(qty4) < dbShop.getItem(Integer.parseInt(item4)).getQty()) {
+            if((Integer.parseInt(qty1) <= dbShop.getItem(Integer.parseInt(item1)).getQty() ) || Integer.parseInt(qty2) <= dbShop.getItem(Integer.parseInt(item2)).getQty()
+                    || Integer.parseInt(qty3) <= dbShop.getItem(Integer.parseInt(item3)).getQty() || Integer.parseInt(qty4) <= dbShop.getItem(Integer.parseInt(item4)).getQty()) {
 
                 if (!item1.equals("")) {
                     int item1Int = Integer.parseInt(item1);
@@ -587,6 +587,7 @@ public class MainActivity extends ActionBarActivity {
              * For syncing ShopTerminal Balance
              */
 
+            try {
             link = urlTerminalBalance;
 
             params = new RequestParams();
@@ -605,9 +606,13 @@ public class MainActivity extends ActionBarActivity {
                     String bal = new String(responseBody);
                     bdb.updateBalance(Integer.parseInt(terminalID),Double.parseDouble(bal));
                 }
-            });
+            }); } catch(Exception e) {
+
+            }
 
             return null;
+
+
         }
 
 

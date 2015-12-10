@@ -59,7 +59,7 @@ public class MainActivity4 extends ActionBarActivity {
     SharedPreferences sp;
 
     public String url = "http://188.166.253.236/index.php/User_Controller/balance";
-    public String urlTerminalBalance = "";
+    public String urlTerminalBalance = "http://188.166.253.236/index.php/Shop_Terminal_Controller/balance";
 
     public String name = "0";
     String item1;
