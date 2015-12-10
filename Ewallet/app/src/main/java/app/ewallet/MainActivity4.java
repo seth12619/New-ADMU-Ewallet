@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -51,10 +52,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 
 public class MainActivity4 extends ActionBarActivity {
+    public String terminalID = "001";
     SharedPreferences sp;
+
     public String url = "http://188.166.253.236/index.php/User_Controller/balance";
+    public String urlTerminalBalance = "";
+
     public String name = "0";
     String item1;
     String item2;
@@ -485,16 +491,44 @@ public class MainActivity4 extends ActionBarActivity {
                                 }
                             }
                         });
+
+             /**
+              * For syncing ShopTerminal Balance
+              */
+
+                    link = urlTerminalBalance;
+                    JSONArray jaBal = new JSONArray(bdb.getJson());
+
+                    JSONObject joBal = jaBal.getJSONObject(0);
+
+                        params = new RequestParams();
+                        params.put("shop_terminal_id", terminalID);
+                        params.put("balance", joBal.getDouble("bal"));
+
+                        client = new SyncHttpClient();
+                        requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                //Is not called
+                            }
+
+                            // Happens when there's an error 4xx, and this is the thing that gets called somehow... and it works.
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                //remote balance should have been updated
+                            }
+                        });
                     } catch (Exception e) {
 
                     }
-
-
 
                 } catch (Exception e) {
 
                 }
             }
+
+
+
 
             return null;
         }

@@ -60,6 +60,12 @@ public class MainActivity2 extends ActionBarActivity {
         TextView item3total = (TextView) findViewById(R.id.item_3total);
         TextView item4total = (TextView) findViewById(R.id.item_4total);
 
+        View loginBTN = findViewById(R.id.button);  //Setting the rogin button invisible
+        loginBTN.setVisibility(View.INVISIBLE);
+
+        EditText ed = (EditText) findViewById(R.id.etidnumber);
+        ed.setVisibility(View.INVISIBLE);
+
         if(!incomingIntent.getStringExtra("item1").equals(""))
         {
             String order1 = incomingIntent.getStringExtra("item1");
@@ -172,7 +178,7 @@ public class MainActivity2 extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_barcode, menu);
         return true;
     }
 
@@ -183,9 +189,13 @@ public class MainActivity2 extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case  R.id.action_sync: View loginBTN = findViewById(R.id.button);
+                loginBTN.setVisibility(View.VISIBLE);
+                EditText ed = (EditText) findViewById(R.id.etidnumber);
+                ed.setVisibility(View.VISIBLE);
+                break;
+            default: break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -202,10 +212,55 @@ public class MainActivity2 extends ActionBarActivity {
             Log.d("code", re);
             EditText et = (EditText) findViewById(R.id.etidnumber);
             et.setText(re);
-            //Intent intentshit = new Intent(this,MainActivity2.class);
-            //startActivity(intentshit);
+            loginBar();
         }
     }
+
+    public void loginBar() {
+        LocalDBhandler db = new LocalDBhandler(this);
+        Intent intent0 = new Intent(this, MainActivity3.class);
+        EditText ed = (EditText) findViewById(R.id.etidnumber);
+        String idNumber = ed.getText().toString();
+
+
+        if(idNumber.equals(""))
+        {
+            idNumberint = 0;
+        }
+        else
+        {
+            idNumberint = Integer.parseInt(idNumber);
+        }
+        try {
+            Student student = db.getStudent(idNumberint);
+            if (student.getID() > 0) {
+                intent0.putExtra(Da_number, idNumber);
+                intent0.putExtra("idnum", idNumber);
+                intent0.putExtra("total", String.valueOf(total));
+
+                intent0.putExtra("itemid1", item1String);
+                intent0.putExtra("itemid2", item2String);
+                intent0.putExtra("itemid3", item3String);
+                intent0.putExtra("itemid4", item4String);
+                intent0.putExtra("qty1", qty1String);
+                intent0.putExtra("qty2", qty2String);
+                intent0.putExtra("qty3", qty3String);
+                intent0.putExtra("qty4", qty4String);
+
+                startActivity(intent0);
+                this.finish();
+            } else {
+                Toast toast = Toast.makeText(this, "WRONG CREDENTIALS", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        } catch (Exception e)
+        {
+            Toast toast = Toast.makeText(this, "WRONG CREDENTIALSS", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+    }
+
     public void login(View view) {
         LocalDBhandler db = new LocalDBhandler(this);
         Intent intent0 = new Intent(this, MainActivity3.class);

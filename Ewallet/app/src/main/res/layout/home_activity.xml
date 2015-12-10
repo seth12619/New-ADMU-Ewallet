@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#4285f4">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,13 +15,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text= "Item Number" />
+            android:text= "Item Number"
+            android:textSize="20dp"
+            android:textColor="#f2f2f2"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text= "Quantity" />
+            android:text= "Quantity"
+            android:textSize="20dp"
+            android:textColor="#f2f2f2"/>
 
     </LinearLayout>
     <LinearLayout
@@ -29,74 +34,111 @@
         android:layout_weight="1">
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
             android:inputType="number|phone"
             android:id="@+id/item_editText1"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#FFFFFF"
+
+
+            >
+        </EditText>
+
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/qty_editText1"
             android:inputType="number|phone"
-            android:layout_weight="1" />
+            android:background="#FFFFFF"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="50dp"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/item_editText2"
             android:inputType="number|phone"
-            android:layout_weight="1" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"/>
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/qty_editText2"
             android:inputType="number|phone"
-            android:layout_weight="1" />
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:inputType="number|phone"
             android:id="@+id/item_editText3"
-            android:layout_weight="1" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"/>
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/qty_editText3"
             android:inputType="number|phone"
-            android:layout_weight="1" />
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:inputType="number|phone"
             android:id="@+id/item_editText4"
-            android:layout_weight="1" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"/>
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/qty_editText4"
             android:inputType="number|phone"
-            android:layout_weight="1" />
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"/>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -105,13 +147,19 @@
 
 
         <Button
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="100dp"
             android:onClick="onConfirmItems"
-           android:id="@+id/accept_items"
-           android:text="Accept"
+            android:id="@+id/accept_items"
+            android:text="Accept"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="#0e63f1"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

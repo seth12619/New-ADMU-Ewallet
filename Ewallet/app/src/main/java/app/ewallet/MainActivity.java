@@ -58,6 +58,8 @@ import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class MainActivity extends ActionBarActivity {
+    public String terminalID = "001";
+
     SharedPreferences sp;
 
     int currPrimaryKey, localCurrPrimaryKey;
@@ -77,6 +79,7 @@ public class MainActivity extends ActionBarActivity {
     public String urlSync = "http://188.166.253.236/index.php/Buy_Transaction_Controller/sync";
     public String urlStock = "http://188.166.253.236/index.php/Stock_Controller/sync";
     public String urlItemOrder = "http://188.166.253.236/index.php/Item_Order_Controller/sync";
+    public String urlTerminalBalance = "";
 
     Context context = this;
 
@@ -294,8 +297,8 @@ public class MainActivity extends ActionBarActivity {
         String item4 = itemEt4.getText().toString();
 
         try {
-            if(!(Integer.parseInt(qty1) > dbShop.getItem(Integer.parseInt(item1)).getQty()  || Integer.parseInt(qty2) > dbShop.getItem(Integer.parseInt(item2)).getQty()
-                    || Integer.parseInt(qty3) > dbShop.getItem(Integer.parseInt(item3)).getQty() || Integer.parseInt(qty4) > dbShop.getItem(Integer.parseInt(item4)).getQty())) {
+            if((Integer.parseInt(qty1) < dbShop.getItem(Integer.parseInt(item1)).getQty() ) || Integer.parseInt(qty2) < dbShop.getItem(Integer.parseInt(item2)).getQty()
+                    || Integer.parseInt(qty3) < dbShop.getItem(Integer.parseInt(item3)).getQty() || Integer.parseInt(qty4) < dbShop.getItem(Integer.parseInt(item4)).getQty()) {
 
                 if (!item1.equals("")) {
                     int item1Int = Integer.parseInt(item1);
@@ -356,7 +359,7 @@ public class MainActivity extends ActionBarActivity {
                 intent.putExtra("qty4", qty4);
 
                 startActivity(intent);
-                this.finish();
+                //this.finish();
             } else {
                 Toast toast = Toast.makeText(this, "Inventory Insufficient", Toast.LENGTH_SHORT);
                 toast.show();
@@ -541,7 +544,7 @@ public class MainActivity extends ActionBarActivity {
                 while (i < ioJA.length()) {
                     JSONObject ioJO = ioJA.getJSONObject(i);
                         jo = new JSONObject();
-                        jo.put("buy_transaction_id", ioJO.getInt("btID"));
+                        jo.put("buy_transaction_id", ioJO.getInt("id"));
                         jo.put("item_id", ioJO.getInt("itemID"));
                         jo.put("quantity", ioJO.getInt("qty"));
                         i++;
@@ -574,8 +577,40 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
+
+
+            /**
+             * For syncing ShopTerminal Balance
+             */
+
+            /**
+             * For syncing ShopTerminal Balance
+             */
+
+            link = urlTerminalBalance;
+
+            params = new RequestParams();
+            params.put("shop_terminal_id", terminalID);
+
+            client = new SyncHttpClient();
+            requestHandle = client.post(link, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    //Is not called
+                }
+
+                // Happens when there's an error 4xx, and this is the thing that gets called somehow... and it works.
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    String bal = new String(responseBody);
+                    bdb.updateBalance(Integer.parseInt(terminalID),Double.parseDouble(bal));
+                }
+            });
+
             return null;
         }
+
+
 
         /**
          * When everything is done; this gets rid of loading screen

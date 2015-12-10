@@ -18,9 +18,9 @@ public class SubActivity2 extends AppCompatActivity {
 
     TextView tv_itemNo;
 
-    EditText itemName;
-    EditText cost;
-    EditText qty;
+    TextView itemName;
+    TextView cost;
+    TextView qty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class SubActivity2 extends AppCompatActivity {
 
         Intent intent = getIntent();
         int itemNo = Integer.parseInt(intent.getStringExtra("itemNo"));
-        tv_itemNo = (TextView) findViewById(R.id.tv_itemNo);
+        tv_itemNo = (TextView) findViewById(R.id.tv_itemNo2);
         tv_itemNo.setText(String.valueOf(itemNo));
 
         if (shdb.checkExist(itemNo)) {
@@ -42,9 +42,9 @@ public class SubActivity2 extends AppCompatActivity {
     }
 
     public void setEditItem(int itemNo) {
-        itemName = (EditText) findViewById(R.id.et_itemName);
-        cost = (EditText) findViewById(R.id.et_cost);
-        qty = (EditText) findViewById(R.id.et_qty);
+        itemName = (TextView) findViewById(R.id.tv_itemName2);
+        cost = (TextView) findViewById(R.id.tv_cost2);
+        qty = (TextView) findViewById(R.id.tv_qty2);
 
         Item item = shdb.getItem(itemNo);
 
@@ -55,9 +55,9 @@ public class SubActivity2 extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-        itemName = (EditText) findViewById(R.id.et_itemName);
-        cost = (EditText) findViewById(R.id.et_cost);
-        qty = (EditText) findViewById(R.id.et_qty);
+        itemName = (TextView) findViewById(R.id.tv_itemName2);
+        cost = (TextView) findViewById(R.id.tv_cost2);
+        qty = (TextView) findViewById(R.id.tv_qty2);
 
         Intent intent = getIntent();
         int itemNo = Integer.parseInt(intent.getStringExtra("itemNo"));

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#4285f4">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -323,7 +324,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/item_4total"/>
+                        android:id="@+id/item_4total"
+                        />
                 </LinearLayout>
 
 
@@ -342,40 +344,32 @@
         android:layout_weight="1">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Input ID number"
-            android:id="@+id/textView"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number|phone"
             android:ems="10"
             android:id="@+id/etidnumber"
-            android:layout_above="@+id/button"
+            android:layout_below="@+id/scan"
             android:layout_centerHorizontal="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
             android:id="@+id/button"
             android:onClick="login"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_toEndOf="@+id/scan"
+            android:layout_toRightOf="@+id/scan" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Total:"
+            android:textColor="#FFFFFF"
             android:id="@+id/tv_total1"
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/etidnumber"
@@ -386,6 +380,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0"
+            android:textColor="#FFFFFF"
             android:id="@+id/allitems_total"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/tv_total1"
@@ -396,10 +391,9 @@
             android:layout_height="wrap_content"
             android:text="Scan ID number"
             android:id="@+id/scan"
-            android:layout_below="@+id/tv_total1"
-            android:layout_toLeftOf="@+id/tv_total1"
-            android:layout_toStartOf="@+id/tv_total1"
-            android:onClick="scan"/>
+            android:onClick="scan"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
 
