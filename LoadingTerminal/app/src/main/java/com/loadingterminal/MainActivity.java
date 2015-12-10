@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        EditText et = (EditText) findViewById(R.id.id_number);
-        et.setVisibility(View.INVISIBLE);
+        EditText ed = (EditText) findViewById(R.id.id_number);
+        ed.setVisibility(View.INVISIBLE);
         View btn = findViewById(R.id.confirm_btn);
         btn.setVisibility(View.INVISIBLE);
 
@@ -84,15 +84,16 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch (id) {
-            case  R.id.action_sync: new AsyncMethod().execute();
+
+        switch(id) {
+            case R.id.action_sync: new AsyncMethod().execute();
                 break;
-            case R.id.action_manual:EditText et = (EditText) findViewById(R.id.id_number);
-                et.setVisibility(View.VISIBLE);
+            case R.id.action_manual:EditText ed = (EditText) findViewById(R.id.id_number);
+                ed.setVisibility(View.VISIBLE);
                 View btn = findViewById(R.id.confirm_btn);
                 btn.setVisibility(View.VISIBLE);
-                break;
 
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -111,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
            // Log.d("code", re);
             EditText et = (EditText) findViewById(R.id.id_number);
             et.setText(re);
+
             confirmScan();
+
         }
 
     }

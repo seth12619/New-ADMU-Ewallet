@@ -8,7 +8,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#b5a33f">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +21,9 @@
             android:ems="10"
             android:id="@+id/id_number"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            />
 
         <Button
             android:layout_width="wrap_content"
@@ -28,18 +31,23 @@
             android:text="Confirm"
             android:id="@+id/confirm_btn"
             android:onClick="confirm"
+            android:textSize="40dp"
             android:layout_gravity="center_vertical"
             android:layout_below="@+id/id_number"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Input ID number"
+            android:text="ID Number"
             android:id="@+id/textView4"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_above="@+id/id_number"
+            android:layout_alignLeft="@+id/confirm_btn"
+            android:layout_alignStart="@+id/confirm_btn"
+            android:textSize="40dp"
+            android:textColor="#FFFFFF"/>
     </RelativeLayout>
 
 
@@ -58,6 +66,7 @@
                 android:text="Scan"
                 android:id="@+id/scan"
                 android:onClick="scan"
+                android:textSize="60dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
 

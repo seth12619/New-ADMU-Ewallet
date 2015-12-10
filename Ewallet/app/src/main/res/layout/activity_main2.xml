@@ -361,10 +361,8 @@
             android:id="@+id/button"
             android:onClick="login"
             android:text="Confirm"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/scan"
-            android:layout_toRightOf="@+id/scan"
-            />
+            android:layout_below="@+id/etidnumber"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -395,7 +393,10 @@
             android:id="@+id/scan"
             android:onClick="scan"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:width="180dp"
+            android:textSize="30dp"
+            />
     </RelativeLayout>
 
 

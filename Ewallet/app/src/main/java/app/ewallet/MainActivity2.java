@@ -255,8 +255,8 @@ public class MainActivity2 extends ActionBarActivity {
             }
         } catch (Exception e)
         {
-            Toast toast = Toast.makeText(this, "WRONG CREDENTIALSS", Toast.LENGTH_SHORT);
-            toast.show();
+            //Toast toast = Toast.makeText(this, "WRONG CREDENTIALSS", Toast.LENGTH_SHORT);
+            //toast.show();
         }
 
     }
